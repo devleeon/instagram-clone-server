@@ -1,0 +1,20 @@
+I. Setting up the server
+    $ yarn init
+    $ yarn add graphql-yoga
+    $ yarn add nodemon -D
+    $ yarn add dotenv
+    $ yarn add @babel/node
+    $ yarn add @babel/core 
+    $ yarn add @babel/preset-env
+    package.json - add scripts 
+        "dev": "nodemon --exec babel-node src/server.js"
+    create nodemon.json
+        {
+            "ext": "js graphql"
+        }
+    create .babelrc
+        {
+            "presets": ["@babel/preset-env"]
+        }
+    $ yarn add morgan
+    $ yarn add graphql-tools merge-graphql-schemas
