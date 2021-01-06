@@ -1,0 +1,71 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            Int      @id @default(autoincrement())
+  email         String   @unique
+  username      String   @unique
+  firstname     String   @default("")
+  lastname      String?
+  bio           String?
+  followedBy    User[]   @relation("UserFollows", references: [id])
+  following     User[]   @relation("UserFollows", references: [id])
+  posts         Post[]
+  likes         Like[]
+  comments      Comment[]
+  chatRooms     Chat[]   
+  messages      Message[]
+  loginSecret   String   @default("")
+
+}
+model Like{
+  id            Int      @id @default(autoincrement())
+  user          User     @relation(fields: [userId], references: [id])
+  userId        Int
+  post          Post     @relation(fields: [postId], references: [id])
+  postId        Int
+}
+model Comment{
+  id            Int      @id @default(autoincrement())
+  user          User     @relation(fields: [userId], references: [id])
+  userId        Int
+  post          Post     @relation(fields: [postId], references: [id])
+  postId        Int
+}
+model Post {
+  id            Int      @id @default(autoincrement())
+  location      String?
+  caption       String?
+  userId        Int
+  user          User     @relation(fields: [userId], references: [id])
+  likes         Like[]
+  comments      Comment[]
+  photoes       Photo[]
+}
+
+model Photo{
+  id            Int      @id @default(autoincrement())
+  url           String
+  post          Post     @relation(fields: [postId], references: [id])
+  postId        Int
+}
+model Chat{
+  id              Int      @id @default(autoincrement())
+  messages        Message[]
+  participants    User[]   
+}
+model Message{
+  id            Int      @id @default(autoincrement())
+  text          String
+  chatRoom      Chat     @relation(fields: [chatId], references: [id])
+  chatId        Int
+  from          User     @relation("From", fields: [fromId], references: [id])
+  fromId        Int
+  to            User[]   
+}

@@ -1,0 +1,15 @@
+# import Comment from 'comments.graphql'
+
+type Mutation {
+  createUser(
+    username: String!
+    email: String!
+    firstName: String
+    lastName: String
+    bio: String
+  ): User!
+}
+
+type Query {
+  something: String!
+}
