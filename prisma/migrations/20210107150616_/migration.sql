@@ -1,6 +1,6 @@
 -- CreateTable
 CREATE TABLE "User" (
-"id" SERIAL,
+    "id" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "username" TEXT NOT NULL,
     "firstname" TEXT NOT NULL DEFAULT E'',
@@ -13,74 +13,75 @@ CREATE TABLE "User" (
 
 -- CreateTable
 CREATE TABLE "Like" (
-"id" SERIAL,
-    "userId" INTEGER NOT NULL,
-    "postId" INTEGER NOT NULL,
+    "id" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "postId" TEXT NOT NULL,
 
     PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Comment" (
-"id" SERIAL,
-    "userId" INTEGER NOT NULL,
-    "postId" INTEGER NOT NULL,
+    "id" TEXT NOT NULL,
+    "text" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "postId" TEXT NOT NULL,
 
     PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Post" (
-"id" SERIAL,
+    "id" TEXT NOT NULL,
     "location" TEXT,
     "caption" TEXT,
-    "userId" INTEGER NOT NULL,
+    "userId" TEXT NOT NULL,
 
     PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Photo" (
-"id" SERIAL,
+    "id" TEXT NOT NULL,
     "url" TEXT NOT NULL,
-    "postId" INTEGER NOT NULL,
+    "postId" TEXT NOT NULL,
 
     PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Chat" (
-"id" SERIAL,
+    "id" TEXT NOT NULL,
 
     PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Message" (
-"id" SERIAL,
+    "id" TEXT NOT NULL,
     "text" TEXT NOT NULL,
-    "chatId" INTEGER NOT NULL,
-    "fromId" INTEGER NOT NULL,
+    "chatId" TEXT NOT NULL,
+    "fromId" TEXT NOT NULL,
 
     PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "_UserFollows" (
-    "A" INTEGER NOT NULL,
-    "B" INTEGER NOT NULL
+    "A" TEXT NOT NULL,
+    "B" TEXT NOT NULL
 );
 
 -- CreateTable
 CREATE TABLE "_ChatToUser" (
-    "A" INTEGER NOT NULL,
-    "B" INTEGER NOT NULL
+    "A" TEXT NOT NULL,
+    "B" TEXT NOT NULL
 );
 
 -- CreateTable
 CREATE TABLE "_MessageToUser" (
-    "A" INTEGER NOT NULL,
-    "B" INTEGER NOT NULL
+    "A" TEXT NOT NULL,
+    "B" TEXT NOT NULL
 );
 
 -- CreateIndex

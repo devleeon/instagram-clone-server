@@ -2,16 +2,16 @@ type User {
   id: ID!
   email: String!
   username: String!
-  firstName: String
-  lastName: String
+  firstname: String
+  lastname: String
   bio: String
-  followedBy: [User!]!
-  following: [User!]!
-  posts: [Post!]!
-  likes: [Like!]!
-  comments: [Comment!]!
-  chatRooms: [Chat!]!
-  loginSecret: String!
+  followedBy: [User]
+  following: [User]
+  posts: [Post]
+  likes: [Like]
+  comments: [Comment]
+  chatRooms: [Chat]
+  loginSecret: String
 }
 
 type Post {
@@ -20,8 +20,8 @@ type Post {
   caption: String
   user: User!
   Photoes: [Photo!]!
-  comments: [Comment!]!
-  likes: [Like!]!
+  comments: [Comment]
+  likes: [Like]
 }
 
 type Like {
@@ -46,7 +46,7 @@ type Photo {
 type Chat {
   id: ID!
   participants: [User!]!
-  messages: [Message!]!
+  messages: [Message]
 }
 
 type Message {

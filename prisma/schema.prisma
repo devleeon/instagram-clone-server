@@ -8,12 +8,12 @@ datasource db {
 }
 
 model User {
-  id            Int      @id @default(autoincrement())
+  id            String      @id @default(uuid())
   email         String   @unique
   username      String   @unique
   firstname     String   @default("")
-  lastname      String?
-  bio           String?
+  lastname      String?  @default("")
+  bio           String?  @default("")
   followedBy    User[]   @relation("UserFollows", references: [id])
   following     User[]   @relation("UserFollows", references: [id])
   posts         Post[]
@@ -25,24 +25,25 @@ model User {
 
 }
 model Like{
-  id            Int      @id @default(autoincrement())
+  id            String      @id @default(uuid())
   user          User     @relation(fields: [userId], references: [id])
-  userId        Int
+  userId        String
   post          Post     @relation(fields: [postId], references: [id])
-  postId        Int
+  postId        String
 }
 model Comment{
-  id            Int      @id @default(autoincrement())
+  id            String      @id @default(uuid())
+  text          String
   user          User     @relation(fields: [userId], references: [id])
-  userId        Int
+  userId        String
   post          Post     @relation(fields: [postId], references: [id])
-  postId        Int
+  postId        String
 }
 model Post {
-  id            Int      @id @default(autoincrement())
+  id            String      @id @default(uuid())
   location      String?
   caption       String?
-  userId        Int
+  userId        String
   user          User     @relation(fields: [userId], references: [id])
   likes         Like[]
   comments      Comment[]
@@ -50,22 +51,22 @@ model Post {
 }
 
 model Photo{
-  id            Int      @id @default(autoincrement())
+  id            String      @id @default(uuid())
   url           String
   post          Post     @relation(fields: [postId], references: [id])
-  postId        Int
+  postId        String
 }
 model Chat{
-  id              Int      @id @default(autoincrement())
+  id              String      @id @default(uuid())
   messages        Message[]
   participants    User[]   
 }
 model Message{
-  id            Int      @id @default(autoincrement())
+  id            String      @id @default(uuid())
   text          String
   chatRoom      Chat     @relation(fields: [chatId], references: [id])
-  chatId        Int
+  chatId        String
   from          User     @relation("From", fields: [fromId], references: [id])
-  fromId        Int
+  fromId        String
   to            User[]   
 }

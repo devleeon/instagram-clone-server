@@ -1,19 +1,17 @@
-import { PrismaClient } from "@prisma/client";
 import { isAuthenticated } from "../../../util/isAuthenticated";
 
 export default {
   Mutation: {
-    toggleLike: async (_, args, { request }) => {
-      const prisma = new PrismaClient();
+    toggleLike: async (_, args, { request, prisma }) => {
       isAuthenticated(request);
       const { postId } = args;
       const { user } = request;
-      const post = await prisma.post.findUnique({ where: { id: postId } });
       const existingLike = await prisma.like.findFirst({
         where: { postId, userId: user.Id },
       });
       if (existingLike) {
-        await prisma.like.delete(existingLike);
+        await prisma.like.deleteMany({ where: { postId, userId: user.Id } });
+        console.log("deleted likes successfully");
       } else {
         await prisma.like.create({
           data: {
@@ -21,6 +19,7 @@ export default {
             user: { connect: { id: user.id } },
           },
         });
+        console.log("created a like successfully");
       }
       return true;
     },

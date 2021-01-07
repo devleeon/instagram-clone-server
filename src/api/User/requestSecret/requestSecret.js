@@ -1,10 +1,8 @@
-import { PrismaClient } from "@prisma/client";
 import { generateSecret } from "../../../util/generateSecret";
 import { sendSecretMail } from "../../../util/sendMail";
 export default {
   Mutation: {
-    requestSecret: async (_, args) => {
-      const prisma = new PrismaClient();
+    requestSecret: async (_, args, { prisma }) => {
       const { email } = args;
       const user = await prisma.user.findUnique({ where: { email } });
       if (!user) {

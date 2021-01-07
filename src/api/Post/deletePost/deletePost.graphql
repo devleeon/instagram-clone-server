@@ -1,0 +1,7 @@
+type Mutation {
+  deletePost(postId: Int!): Boolean!
+}
+
+type Query {
+  something: String!
+}
