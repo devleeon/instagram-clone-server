@@ -1,16 +1,13 @@
-import { isAuthenticated } from "../../../util/isAuthenticated";
-
 export default {
   Mutation: {
-    createPost: async (_, args, { request, prisma }) => {
+    createPost: async (_, args, { request, prisma, isAuthenticated }) => {
       isAuthenticated(request);
       const { user } = request;
       const { location, caption } = args;
-      const post = prisma.post.create({
+      const post = await prisma.post.create({
         data: { location, caption, user: { connect: { id: user.id } } },
       });
-
-      return post;
+      return { ...post, user };
     },
   },
 };

@@ -4,14 +4,17 @@ type User {
   username: String!
   firstname: String
   lastname: String
+  fullname: String
   bio: String
   followedBy: [User]
   following: [User]
+  amIFollowing: Boolean!
   posts: [Post]
   likes: [Like]
   comments: [Comment]
   chatRooms: [Chat]
   loginSecret: String
+  isSelf: Boolean!
 }
 
 type Post {

@@ -1,24 +1,21 @@
-import { isAuthenticated } from "../../../util/isAuthenticated";
 export default {
   Mutation: {
-    addComment: async (_, args, { request, prisma }) => {
+    addComment: async (_, args, { request, isAuthenticated, prisma }) => {
       isAuthenticated(request);
       // needed to add timestamp
       const { postId, text } = args;
       const { user } = request;
-      const post = prisma.post.findUnique({ where: { id: postId } });
-      if (!post) {
-        // the post doesn't exist
-        return false;
-      } else {
-        await prisma.comment.create({
+
+      try {
+        await prisma.post.update({
+          where: { id: postId },
           data: {
-            text,
-            post: { connect: { id: postId } },
-            user: { connect: { id: user.id } },
+            comments: { create: { text, user: { connect: { id: user.id } } } },
           },
         });
         return true;
+      } catch {
+        return false;
       }
     },
   },

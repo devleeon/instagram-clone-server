@@ -1,11 +1,10 @@
-import { isAuthenticated } from "../../../util/isAuthenticated";
 export default {
   Mutation: {
-    addComment: async (_, args, { request, prisma }) => {
+    deletePost: async (_, args, { request, prisma, isAuthenticated }) => {
       isAuthenticated(request);
       const { postId } = args;
       const { user } = request;
-      const post = prisma.post.findUnique({ where: { id: postId } });
+      const post = await prisma.post.findUnique({ where: { id: postId } });
       if (!post) {
         // the post doesn't exist
         return false;

@@ -1,0 +1,8 @@
+type APost {
+  post: Post!
+  comments: [Comment]
+  numberOfLikes: Int!
+}
+type Query {
+  seePost(id: String!): APost!
+}
