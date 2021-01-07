@@ -1,0 +1,7 @@
+type Mutation {
+  createPost(location: String, caption: String): Post!
+}
+
+type Query {
+  something: String!
+}

@@ -1,5 +1,3 @@
-# import Comment from 'comments.graphql'
-
 type Mutation {
   createUser(
     username: String!

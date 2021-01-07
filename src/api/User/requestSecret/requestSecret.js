@@ -12,13 +12,11 @@ export default {
         return false;
       }
       const secret = generateSecret();
-      console.log("secret: ", secret);
       await prisma.user.update({
         where: { email },
         data: { loginSecret: secret },
       });
-      sendSecretMail(email, secret);
-
+      sendSecretMail(email);
       return true;
     },
   },

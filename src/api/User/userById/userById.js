@@ -1,9 +1,6 @@
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
-
 export default {
   Query: {
-    userById: async (_, args) => {
+    userById: async (_, args, { prisma }) => {
       const { id } = args;
       return prisma.user.findUnique({ where: { id } });
     },
