@@ -1,11 +1,13 @@
 -- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
     "email" TEXT NOT NULL,
     "username" TEXT NOT NULL,
     "firstname" TEXT NOT NULL DEFAULT E'',
-    "lastname" TEXT,
-    "bio" TEXT,
+    "lastname" TEXT DEFAULT E'',
+    "bio" TEXT DEFAULT E'',
     "loginSecret" TEXT NOT NULL DEFAULT E'',
 
     PRIMARY KEY ("id")
@@ -23,6 +25,8 @@ CREATE TABLE "Like" (
 -- CreateTable
 CREATE TABLE "Comment" (
     "id" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
     "text" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
     "postId" TEXT NOT NULL,
@@ -33,8 +37,10 @@ CREATE TABLE "Comment" (
 -- CreateTable
 CREATE TABLE "Post" (
     "id" TEXT NOT NULL,
-    "location" TEXT,
-    "caption" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "location" TEXT DEFAULT E'',
+    "caption" TEXT DEFAULT E'',
     "userId" TEXT NOT NULL,
 
     PRIMARY KEY ("id")
@@ -52,6 +58,8 @@ CREATE TABLE "Photo" (
 -- CreateTable
 CREATE TABLE "Chat" (
     "id" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     PRIMARY KEY ("id")
 );
@@ -59,6 +67,8 @@ CREATE TABLE "Chat" (
 -- CreateTable
 CREATE TABLE "Message" (
     "id" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
     "text" TEXT NOT NULL,
     "chatId" TEXT NOT NULL,
     "fromId" TEXT NOT NULL,

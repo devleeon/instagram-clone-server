@@ -2,6 +2,7 @@ type APost {
   post: Post!
   comments: [Comment]
   numberOfLikes: Int!
+  photos: [Photo]
 }
 type Query {
   seePost(id: String!): APost!

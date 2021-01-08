@@ -1,5 +1,7 @@
 type User {
   id: ID!
+  createdAt: String!
+  updatedAt: String!
   email: String!
   username: String!
   firstname: String
@@ -19,12 +21,16 @@ type User {
 
 type Post {
   id: ID!
+  createdAt: String!
+  updatedAt: String!
   location: String
   caption: String
   user: User!
-  Photoes: [Photo!]!
+  photos: [Photo!]!
   comments: [Comment]
   likes: [Like]
+  isLiked: Boolean!
+  numberOfLikes: Int!
 }
 
 type Like {
@@ -35,6 +41,8 @@ type Like {
 
 type Comment {
   id: ID!
+  createdAt: String!
+  updatedAt: String!
   text: String!
   user: User!
   post: Post!
@@ -48,12 +56,16 @@ type Photo {
 
 type Chat {
   id: ID!
+  createdAt: String!
+  updatedAt: String!
   participants: [User!]!
   messages: [Message]
 }
 
 type Message {
   id: ID!
+  createdAt: String!
+  updatedAt: String!
   text: String!
   chatRoom: Chat!
   from: User!
