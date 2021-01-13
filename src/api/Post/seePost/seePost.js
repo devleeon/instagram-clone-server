@@ -1,6 +1,9 @@
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 export default {
   Query: {
-    seePost: async (_, args, { prisma }) => {
+    seePost: async (_, args) => {
       const { id } = args;
       const post = await prisma.post.findUnique({
         where: {

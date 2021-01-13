@@ -1,6 +1,9 @@
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 export default {
   Post: {
-    isLiked: async (root, _, { request, isAuthenticated, prisma }) => {
+    isLiked: async (root, _, { request, isAuthenticated }) => {
       isAuthenticated(request);
       const { user } = request;
       const { id: postId } = root;
@@ -12,7 +15,7 @@ export default {
 
       return Boolean(result);
     },
-    numberOfLikes: async (root, _, { prisma }) => {
+    numberOfLikes: async (root, _, {}) => {
       const { id } = root;
       return prisma.like.count({ where: { postId: id } });
     },

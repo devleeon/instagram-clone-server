@@ -1,6 +1,9 @@
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 export default {
   Mutation: {
-    follow: async (_, args, { request, prisma, isAuthenticated }) => {
+    follow: async (_, args, { request, isAuthenticated }) => {
       isAuthenticated(request);
       const { user } = request;
       const { followId } = args;

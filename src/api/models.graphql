@@ -69,5 +69,5 @@ type Message {
   text: String!
   chatRoom: Chat!
   from: User!
-  to: User!
+  to: [User]!
 }

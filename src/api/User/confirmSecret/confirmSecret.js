@@ -3,8 +3,8 @@ import generateToken from "../../../util/generateToken";
 export default {
   Mutation: {
     confirmSecret: async (_, args) => {
-      const { email, secret } = args;
       const prisma = new PrismaClient();
+      const { email, secret } = args;
       const user = await prisma.user.findUnique({ where: { email } });
       if (user.loginSecret === secret) {
         // delete loginSecret

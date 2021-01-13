@@ -2,7 +2,6 @@ require("dotenv").config();
 import { GraphQLServer } from "graphql-yoga";
 import logger from "morgan";
 import schema from "./schema";
-import { PrismaClient } from "@prisma/client";
 import "./passport";
 import { authenticateJwt } from "./passport";
 import { isAuthenticated } from "./util/isAuthenticated";
@@ -13,7 +12,6 @@ const server = new GraphQLServer({
   context: (req) => ({
     ...req,
     isAuthenticated,
-    prisma: new PrismaClient(),
   }),
 });
 

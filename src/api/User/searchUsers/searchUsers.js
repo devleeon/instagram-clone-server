@@ -1,9 +1,9 @@
-// import { PrismaClient } from "@prisma/client";
-// const prisma = new PrismaClient();
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
 
 export default {
   Query: {
-    searchUsers: async (_, args, { prisma }) => {
+    searchUsers: async (_, args, {}) => {
       const { query } = args;
       console.log("query: ", query);
       const posts = await prisma.user.findMany({

@@ -1,9 +1,12 @@
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 export default {
   User: {
     fullname: (root) => {
       return `${root.firstname} ${root.lastname}`;
     },
-    amIFollowing: async (root, _, { request, isAuthenticated, prisma }) => {
+    amIFollowing: async (root, _, { request, isAuthenticated }) => {
       isAuthenticated(request);
       const { user } = request;
       const { id: rootId } = root;
