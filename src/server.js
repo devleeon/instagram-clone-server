@@ -5,7 +5,7 @@ import schema from "./schema";
 import "./passport";
 import { authenticateJwt } from "./passport";
 import { isAuthenticated } from "./util/isAuthenticated";
-
+import cors from "cors";
 const PORT = process.env.PORT || 4000;
 const server = new GraphQLServer({
   schema,

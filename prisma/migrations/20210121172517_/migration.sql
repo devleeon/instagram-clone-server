@@ -3,10 +3,12 @@ CREATE TABLE "User" (
     "id" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "email" TEXT NOT NULL,
+    "email" TEXT,
     "username" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
     "firstname" TEXT NOT NULL DEFAULT E'',
     "lastname" TEXT DEFAULT E'',
+    "phoneNo" TEXT DEFAULT E'',
     "bio" TEXT DEFAULT E'',
     "loginSecret" TEXT NOT NULL DEFAULT E'',
 
@@ -99,6 +101,9 @@ CREATE UNIQUE INDEX "User.email_unique" ON "User"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User.username_unique" ON "User"("username");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User.phoneNo_unique" ON "User"("phoneNo");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "_UserFollows_AB_unique" ON "_UserFollows"("A", "B");

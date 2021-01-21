@@ -11,10 +11,12 @@ model User {
   id            String      @id @default(uuid())
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt  
-  email         String   @unique
+  email         String?   @unique
   username      String   @unique
+  password      String
   firstname     String   @default("")
   lastname      String?  @default("")
+  phoneNo   String?  @default("") @unique
   bio           String?  @default("")
   followedBy    User[]   @relation("UserFollows", references: [id])
   following     User[]   @relation("UserFollows", references: [id])

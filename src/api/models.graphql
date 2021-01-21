@@ -2,10 +2,12 @@ type User {
   id: ID!
   createdAt: String!
   updatedAt: String!
-  email: String!
+  email: String
   username: String!
+  password: String!
   firstname: String
   lastname: String
+  phoneNo: String
   fullname: String
   bio: String
   followedBy: [User]
