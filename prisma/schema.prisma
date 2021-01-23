@@ -11,37 +11,37 @@ model User {
   id            String      @id @default(uuid())
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt  
-  email         String?   @unique
-  username      String   @unique
+  email         String?     @unique
+  username      String      @unique
   password      String
-  firstname     String   @default("")
-  lastname      String?  @default("")
-  phoneNo   String?  @default("") @unique
-  bio           String?  @default("")
-  followedBy    User[]   @relation("UserFollows", references: [id])
-  following     User[]   @relation("UserFollows", references: [id])
+  firstname     String      @default("")
+  lastname      String?     @default("")
+  phoneNo       String?     @unique
+  bio           String?     @default("")
+  followedBy    User[]      @relation("UserFollows", references: [id])
+  following     User[]      @relation("UserFollows", references: [id])
   posts         Post[]
   likes         Like[]
   comments      Comment[]
   chatRooms     Chat[]   
   messages      Message[]
-  loginSecret   String   @default("")
+  loginSecret   String      @default("")
 }
 model Like{
   id            String      @id @default(uuid())
-  user          User     @relation(fields: [userId], references: [id])
+  user          User        @relation(fields: [userId], references: [id])
   userId        String
-  post          Post     @relation(fields: [postId], references: [id])
+  post          Post        @relation(fields: [postId], references: [id])
   postId        String
 }
 model Comment{
   id            String      @id @default(uuid())
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime @updatedAt  
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt  
   text          String
-  user          User     @relation(fields: [userId], references: [id])
+  user          User        @relation(fields: [userId], references: [id])
   userId        String
-  post          Post     @relation(fields: [postId], references: [id])
+  post          Post        @relation(fields: [postId], references: [id])
   postId        String
 }
 model Post {
@@ -51,7 +51,7 @@ model Post {
   location      String?     @default("")
   caption       String?     @default("")
   userId        String
-  user          User     @relation(fields: [userId], references: [id])
+  user          User        @relation(fields: [userId], references: [id])
   likes         Like[]
   comments      Comment[]
   photos       Photo[]
@@ -60,24 +60,24 @@ model Post {
 model Photo{
   id            String      @id @default(uuid())
   url           String
-  post          Post     @relation(fields: [postId], references: [id])
+  post          Post        @relation(fields: [postId], references: [id])
   postId        String
 }
 model Chat{
-  id              String      @id @default(uuid())
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime @updatedAt  
-  messages        Message[]
-  participants    User[]   
+  id            String      @id @default(uuid())
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt  
+  messages      Message[]
+  participants  User[]   
 }
 model Message{
   id            String      @id @default(uuid())
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt  
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt  
   text          String
-  chatRoom      Chat     @relation(fields: [chatId], references: [id])
+  chatRoom      Chat        @relation(fields: [chatId], references: [id])
   chatId        String
-  from          User     @relation("From", fields: [fromId], references: [id])
+  from          User        @relation("From", fields: [fromId], references: [id])
   fromId        String
   to            User[]   
 }

@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import argon from "argon2";
+import generateToken from "../../../util/generateToken";
 const prisma = new PrismaClient();
 export default {
   Mutation: {
@@ -25,7 +26,7 @@ export default {
               },
             }
       );
-      return generateToken(user.id);
+      return user;
     },
   },
 };

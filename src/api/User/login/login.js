@@ -16,13 +16,28 @@ export default {
               where: { username: emailOrUsername },
             }
       );
-      const valid = await argon.verify(user.password);
+      if (!user) {
+        // wrong username
+        return {
+          error: {
+            message: `The username ${emailOrUsername} doesn't exist`,
+            location: "emailOrUsername",
+          },
+        };
+      }
+
+      const valid = await argon.verify(user.password, password);
 
       if (!valid) {
         // wrong password
-        throw Error("Wrong username or password. Check them out again");
+        return {
+          error: {
+            message: `wrong password`,
+            location: "password",
+          },
+        };
       }
-      return generateToken(user.id);
+      return { token: generateToken(user.id), user };
 
       // if (user.loginSecret === secret) {
       //   // delete loginSecret

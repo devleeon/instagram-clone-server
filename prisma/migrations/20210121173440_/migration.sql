@@ -8,7 +8,7 @@ CREATE TABLE "User" (
     "password" TEXT NOT NULL,
     "firstname" TEXT NOT NULL DEFAULT E'',
     "lastname" TEXT DEFAULT E'',
-    "phoneNo" TEXT DEFAULT E'',
+    "phoneNo" TEXT,
     "bio" TEXT DEFAULT E'',
     "loginSecret" TEXT NOT NULL DEFAULT E'',
 
