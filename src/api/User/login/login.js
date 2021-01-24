@@ -17,39 +17,35 @@ export default {
             }
       );
       if (!user) {
-        // wrong username
-        return {
-          error: {
-            message: `The username ${emailOrUsername} doesn't exist`,
-            location: "emailOrUsername",
-          },
-        };
+        if (emailOrUsername.includes("@")) {
+          return {
+            error: {
+              message: `Email address ${emailOrUsername} doesn't exist \nPlease sign up first`,
+              location: "emailOrUsername",
+            },
+          };
+        } else {
+          // wrong username
+          return {
+            error: {
+              message: `The username ${emailOrUsername} doesn't exist \nPlease sign up first`,
+              location: "emailOrUsername",
+            },
+          };
+        }
       }
 
       const valid = await argon.verify(user.password, password);
-
       if (!valid) {
         // wrong password
         return {
           error: {
-            message: `wrong password`,
+            message: "wrong password",
             location: "password",
           },
         };
       }
       return { token: generateToken(user.id), user };
-
-      // if (user.loginSecret === secret) {
-      //   // delete loginSecret
-      //   await prisma.user.update({
-      //     where: { email },
-      //     data: { loginSecret: "" },
-      //   });
-      //   // JWT
-      //   return generateToken(user.id);
-      // } else {
-      //   throw Error("Wrong email/secret combination");
-      // }
     },
   },
 };

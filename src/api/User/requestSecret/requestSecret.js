@@ -2,22 +2,44 @@ import { generateSecret } from "../../../util/generateSecret";
 import { sendSecretMail } from "../../../util/sendMail";
 import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient();
 export default {
   Mutation: {
     requestSecret: async (_, args, {}) => {
-      const { email } = args;
-      const user = await prisma.user.findUnique({ where: { email } });
+      const prisma = new PrismaClient();
+      const { emailOrUsername } = args;
+      const user = await prisma.user.findUnique(
+        emailOrUsername.includes("@")
+          ? {
+              where: { email: emailOrUsername },
+            }
+          : {
+              where: { username: emailOrUsername },
+            }
+      );
       if (!user) {
-        //no user exists
-        return false;
+        if (emailOrUsername.includes("@")) {
+          return {
+            error: {
+              message: `Email address ${emailOrUsername} doesn't exist \nPlease sign up first`,
+              location: "emailOrUsername",
+            },
+          };
+        } else {
+          // wrong username
+          return {
+            error: {
+              message: `The username ${emailOrUsername} doesn't exist \nPlease sign up first`,
+              location: "emailOrUsername",
+            },
+          };
+        }
       }
       const secret = generateSecret();
       await prisma.user.update({
-        where: { email },
+        where: { email: user.email },
         data: { loginSecret: secret },
       });
-      sendSecretMail(email);
+      sendSecretMail(email, secret, user.username);
       return true;
     },
   },

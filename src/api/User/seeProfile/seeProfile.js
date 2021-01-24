@@ -1,9 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient();
 export default {
   Query: {
     seeProfile: async (_, args, {}) => {
+      const prisma = new PrismaClient();
       const { username } = args;
       const user = await prisma.user.findUnique({ where: { username } });
       const posts = await prisma.user

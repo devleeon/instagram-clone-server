@@ -4,5 +4,5 @@ type Mutation {
     emailOrPhone: String!
     password: String!
     firstname: String
-  ): User!
+  ): UserResult!
 }

@@ -1,9 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient();
 export default {
   Query: {
     me: async (_, __, { request, isAuthenticated }) => {
+      const prisma = new PrismaClient();
       isAuthenticated(request);
       const { user } = request;
       const posts = await prisma.user
