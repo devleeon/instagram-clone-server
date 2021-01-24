@@ -6,12 +6,16 @@ import "./passport";
 import { authenticateJwt } from "./passport";
 import { isAuthenticated } from "./util/isAuthenticated";
 import cors from "cors";
+import { PrismaClient } from "@prisma/client";
+
 const PORT = process.env.PORT || 4000;
+const prisma = new PrismaClient();
 const server = new GraphQLServer({
   schema,
   context: (req) => ({
     ...req,
     isAuthenticated,
+    prisma,
   }),
 });
 

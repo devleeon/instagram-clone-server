@@ -18,6 +18,7 @@ model User {
   lastname      String?     @default("")
   phoneNo       String?     @unique
   bio           String?     @default("")
+  avatar        String      @default("")
   followedBy    User[]      @relation("UserFollows", references: [id])
   following     User[]      @relation("UserFollows", references: [id])
   posts         Post[]

@@ -1,9 +1,6 @@
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
 export default {
   Mutation: {
-    editPost: async (_, args, { request, isAuthenticated }) => {
+    editPost: async (_, args, { request, isAuthenticated, prisma }) => {
       isAuthenticated(request);
       const { user } = request;
       const { id, location, caption, action } = args;

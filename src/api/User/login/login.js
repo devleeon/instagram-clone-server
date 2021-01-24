@@ -1,11 +1,9 @@
-import { PrismaClient } from "@prisma/client";
-import generateToken from "../../../util/generateToken";
 import argon from "argon2";
+import generateToken from "../../../util/generateToken";
 
 export default {
   Mutation: {
-    login: async (_, args) => {
-      const prisma = new PrismaClient();
+    login: async (_, args, { prisma }) => {
       const { emailOrUsername, password } = args;
       const user = await prisma.user.findUnique(
         emailOrUsername.includes("@")

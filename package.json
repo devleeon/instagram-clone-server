@@ -5,7 +5,8 @@
   "scripts": {
     "gen": "npx prisma generate",
     "migrate": "npx prisma migrate dev --preview-feature",
-    "dev": "nodemon --exec babel-node src/server.js"
+    "dev": "nodemon --exec babel-node src/server.js",
+    "studio": "npx prisma studio"
   },
   "dependencies": {
     "@babel/core": "^7.12.10",

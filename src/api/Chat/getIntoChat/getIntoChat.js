@@ -1,9 +1,6 @@
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
 export default {
   Query: {
-    getIntoChat: async (_, args, { request, isAuthenticated }) => {
+    getIntoChat: async (_, args, { request, isAuthenticated, prisma }) => {
       isAuthenticated(request);
       const { id } = args;
       const { user } = request;

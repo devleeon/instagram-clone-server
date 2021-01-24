@@ -1,9 +1,6 @@
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
 export default {
   Mutation: {
-    toggleLike: async (_, args, { request, isAuthenticated }) => {
+    toggleLike: async (_, args, { request, isAuthenticated, prisma }) => {
       isAuthenticated(request);
       const { postId } = args;
       const { user } = request;

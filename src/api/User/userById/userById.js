@@ -1,9 +1,6 @@
-import { PrismaClient } from "@prisma/client";
-
 export default {
   Query: {
-    userById: (_, args, {}) => {
-      const prisma = new PrismaClient();
+    userById: (_, args, { prisma }) => {
       const { id } = args;
       return prisma.user.findUnique({ where: { id } });
     },

@@ -1,9 +1,6 @@
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
 export default {
   Mutation: {
-    createPost: async (_, args, { request, isAuthenticated }) => {
+    createPost: async (_, args, { request, isAuthenticated, prisma }) => {
       isAuthenticated(request);
       const { user } = request;
       const { location, caption, urls } = args;

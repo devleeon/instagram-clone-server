@@ -1,9 +1,6 @@
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
 export default {
   Mutation: {
-    editProfile: async (_, args, { request, isAuthenticated }) => {
+    editProfile: async (_, args, { request, isAuthenticated, prisma }) => {
       isAuthenticated(request);
       const { user } = request;
       const { username, email, firstname, lastname, bio } = args;

@@ -1,9 +1,6 @@
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
 export default {
   Mutation: {
-    sendMessage: async (_, args, { request, isAuthenticated }) => {
+    sendMessage: async (_, args, { request, isAuthenticated, prisma }) => {
       isAuthenticated(request);
       const { id, text, to } = args;
       const { user } = request;

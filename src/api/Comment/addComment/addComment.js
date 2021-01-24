@@ -1,9 +1,6 @@
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
 export default {
   Mutation: {
-    addComment: async (_, args, { request, isAuthenticated }) => {
+    addComment: async (_, args, { request, isAuthenticated, prisma }) => {
       isAuthenticated(request);
       // needed to add timestamp
       const { postId, text } = args;

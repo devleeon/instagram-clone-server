@@ -1,8 +1,3 @@
-type APost {
-  post: Post!
-  comments: [Comment]
-  photos: [Photo]
-}
 type Query {
-  seePost(id: String!): APost!
+  seePost(id: String!): Post
 }
