@@ -24,6 +24,8 @@ export const authenticateJwt = (req, res, next) =>
   passport.authenticate("jwt", { sessions: false }, (error, user) => {
     if (user) {
       req.user = user;
+    } else {
+      console.log(error);
     }
     next();
   })(req, res, next);

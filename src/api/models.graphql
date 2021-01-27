@@ -39,7 +39,9 @@ type Post {
 type Like {
   id: ID!
   user: User!
+  userId: String!
   post: Post!
+  postId: String!
 }
 
 type Comment {

@@ -3,7 +3,7 @@ export default {
     searchUsers: async (_, args, { prisma }) => {
       const { query } = args;
       console.log("query: ", query);
-      const posts = await prisma.user.findMany({
+      const users = await prisma.user.findMany({
         where: {
           OR: [
             { firstname: { contains: query } },
@@ -12,7 +12,7 @@ export default {
           ],
         },
       });
-      return posts;
+      return users;
     },
   },
 };

@@ -12,12 +12,9 @@ export default {
       isAuthenticated(request);
       const { user } = request;
       const { id: postId } = root;
-      const result = await prisma.post.findFirst({
-        where: {
-          AND: [{ id: postId }, { likes: { some: { userId: user.id } } }],
-        },
+      const result = await prisma.like.findFirst({
+        where: { AND: [{ postId }, { userId: user.id }] },
       });
-
       return Boolean(result);
     },
     numberOfLikes: async (root, _, { prisma }) => {

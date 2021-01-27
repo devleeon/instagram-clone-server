@@ -41,7 +41,6 @@ export default {
           chatRoom: { connect: { id: room.id } },
         },
       });
-      console.log(message);
       return true;
     },
   },

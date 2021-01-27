@@ -5,11 +5,14 @@ export default {
       const { postId } = args;
       const { user } = request;
       const existingLike = await prisma.like.findFirst({
-        where: { postId, userId: user.Id },
+        where: { AND: [{ postId }, { userId: user.Id }] },
       });
       if (existingLike) {
-        await prisma.like.deleteMany({ where: { postId, userId: user.Id } });
-        console.log("deleted likes successfully");
+        // const result = await prisma.like.delete({
+        //   where: { id: existingLike.id },
+        // });
+        const result = await prisma.$executeRaw`DELETE FROM "Like" WHERE id = ${existingLike.id};`;
+        console.log("deleted likes : ", result);
       } else {
         await prisma.like.create({
           data: {

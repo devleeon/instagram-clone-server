@@ -12,9 +12,14 @@ export default {
           AND: [{ id: rootId }, { followedBy: { some: { id: user.id } } }],
         },
       });
-
       return Boolean(result);
     },
+    followedBy: async ({ id }, _, { prisma }) =>
+      await prisma.user.findUnique({ where: { id } }).followedBy(),
+    following: async ({ id }, _, { prisma }) =>
+      await prisma.user.findUnique({ where: { id } }).following(),
+    posts: async ({ id }, _, { prisma }) =>
+      await prisma.user.findUnique({ where: { id } }).posts(),
     isSelf: (root, _, { request }) => {
       const { user } = request;
       const { id: rootId } = root;
