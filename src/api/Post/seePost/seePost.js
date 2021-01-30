@@ -1,10 +1,10 @@
 export default {
   Query: {
     seePost: async (_, args, { prisma }) => {
-      const { id } = args;
+      const { postId } = args;
       const post = await prisma.post.findUnique({
         where: {
-          id,
+          id: postId,
         },
       });
 

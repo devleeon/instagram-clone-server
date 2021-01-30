@@ -1,0 +1,3 @@
+type Query {
+  getProfilePost(username: String!, limit: Int!, offset: Int!): [Post]
+}
