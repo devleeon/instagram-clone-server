@@ -13,6 +13,9 @@ type User {
   bio: String
   followedBy: [User]
   following: [User]
+  numberOfFollowers: Int!
+  numberOfFollowings: Int!
+  numberOfPosts: Int!
   amIFollowing: Boolean!
   posts: [Post]
   likes: [Like]

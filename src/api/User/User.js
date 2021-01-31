@@ -18,8 +18,22 @@ export default {
       await prisma.user.findUnique({ where: { id } }).followedBy(),
     following: async ({ id }, _, { prisma }) =>
       await prisma.user.findUnique({ where: { id } }).following(),
+    numberOfFollowers: async ({ id }, _, { prisma }) => {
+      const count = await prisma.user
+        .findUnique({ where: { id } })
+        .followedBy();
+      return count.length;
+    },
+    numberOfFollowings: async ({ id }, _, { prisma }) => {
+      const count = await prisma.user.findUnique({ where: { id } }).following();
+      return count.length;
+    },
     posts: async ({ id }, _, { prisma }) =>
       await prisma.user.findUnique({ where: { id } }).posts(),
+    numberOfPosts: async ({ id }, _, { prisma }) => {
+      const count = await prisma.user.findUnique({ where: { id } }).posts();
+      return count.length;
+    },
     isSelf: (root, _, { request }) => {
       const { user } = request;
       const { id: rootId } = root;
