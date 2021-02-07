@@ -1,26 +1,29 @@
+import { NEW_LIKE } from "../../../util/constants";
+
 export default {
   Mutation: {
-    toggleLike: async (_, args, { request, isAuthenticated, prisma }) => {
-      isAuthenticated(request);
+    toggleLike: async (_, args, { token, isAuthenticated, prisma, pubsub }) => {
       const { postId } = args;
-      const { user } = request;
+      const user = await isAuthenticated(token, prisma);
       const existingLike = await prisma.like.findFirst({
-        where: { AND: [{ postId }, { userId: user.Id }] },
+        where: { AND: [{ postId }, { userId: user.id }] },
       });
-      if (existingLike) {
+      let result;
+      if (Boolean(existingLike)) {
         // const result = await prisma.like.delete({
         //   where: { id: existingLike.id },
         // });
-        const result = await prisma.$executeRaw`DELETE FROM "Like" WHERE id = ${existingLike.id};`;
-        console.log("deleted likes : ", result);
+        result = await prisma.$executeRaw`DELETE FROM "Like" WHERE id = ${existingLike.id};`;
       } else {
-        await prisma.like.create({
+        result = await prisma.like.create({
           data: {
             post: { connect: { id: postId } },
             user: { connect: { id: user.id } },
           },
         });
-        console.log("created a like successfully");
+        pubsub.publish(NEW_LIKE, {
+          liked: result,
+        });
       }
       return true;
     },

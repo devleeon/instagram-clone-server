@@ -1,8 +1,7 @@
 export default {
   Mutation: {
     editProfile: async (_, args, { request, isAuthenticated, prisma }) => {
-      isAuthenticated(request);
-      const { user } = request;
+      const user = await isAuthenticated(request, prima);
       const { username, email, firstname, lastname, bio } = args;
       await prisma.user.update({
         where: {

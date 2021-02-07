@@ -1,0 +1,3 @@
+type Mutation {
+  changeAvatar(img: FileUpload!): File!
+}

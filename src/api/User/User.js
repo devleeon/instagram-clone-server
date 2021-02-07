@@ -3,9 +3,8 @@ export default {
     fullname: (root) => {
       return `${root.firstname} ${root.lastname}`;
     },
-    amIFollowing: async (root, _, { request, isAuthenticated, prisma }) => {
-      isAuthenticated(request);
-      const { user } = request;
+    amIFollowing: async (root, _, { token, isAuthenticated, prisma }) => {
+      const user = await isAuthenticated(token, prisma);
       const { id: rootId } = root;
       const result = await prisma.user.findFirst({
         where: {
@@ -34,8 +33,8 @@ export default {
       const count = await prisma.user.findUnique({ where: { id } }).posts();
       return count.length;
     },
-    isSelf: (root, _, { request }) => {
-      const { user } = request;
+    isSelf: async (root, _, { isAuthenticated, token, prisma }) => {
+      const user = await isAuthenticated(token, prisma);
       const { id: rootId } = root;
       return user.id === rootId;
     },

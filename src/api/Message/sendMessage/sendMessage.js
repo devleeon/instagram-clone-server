@@ -1,9 +1,8 @@
 export default {
   Mutation: {
-    sendMessage: async (_, args, { request, isAuthenticated, prisma }) => {
-      isAuthenticated(request);
+    sendMessage: async (_, args, { token, isAuthenticated, prisma }) => {
+      const user = await isAuthenticated(token, prisma);
       const { id, text, to } = args;
-      const { user } = request;
       let room;
       if (id === undefined) {
         // chat room doesn't exist

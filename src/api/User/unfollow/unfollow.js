@@ -1,11 +1,10 @@
 export default {
   Mutation: {
-    unfollow: async (_, args, { request, isAuthenticated, prisma }) => {
-      isAuthenticated(request);
-      const { user } = request;
-      const { unfollowId } = args;
+    unfollow: async (_, args, { token, isAuthenticated, prisma }) => {
+      const user = await isAuthenticated(token, prisma);
+      const { username } = args;
       const unfollowUser = await prisma.user.findUnique({
-        where: { id: unfollowId },
+        where: { username },
       });
       if (!unfollowUser) {
         return false;
@@ -14,7 +13,7 @@ export default {
           await prisma.user.update({
             where: { id: user.id },
             data: {
-              following: { disconnect: { id: unfollowId } },
+              following: { disconnect: { username } },
             },
           });
           return true;

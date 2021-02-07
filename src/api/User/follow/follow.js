@@ -1,11 +1,10 @@
 export default {
   Mutation: {
-    follow: async (_, args, { request, isAuthenticated, prisma }) => {
-      isAuthenticated(request);
-      const { user } = request;
-      const { followId } = args;
+    follow: async (_, args, { token, isAuthenticated, prisma }) => {
+      const user = await isAuthenticated(token, prisma);
+      const { username } = args;
       const followUser = await prisma.user.findUnique({
-        where: { id: followId },
+        where: { username },
       });
       if (!followUser) {
         return false;
@@ -14,7 +13,7 @@ export default {
           await prisma.user.update({
             where: { id: user.id },
             data: {
-              following: { connect: { id: followId } },
+              following: { connect: { username } },
             },
           });
           return true;

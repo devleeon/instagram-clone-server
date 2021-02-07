@@ -18,7 +18,7 @@ model User {
   lastname      String?     @default("")
   phoneNo       String?     @unique
   bio           String?     @default("")
-  avatar        String      @default("")
+  avatar        String      @default("https://firebasestorage.googleapis.com/v0/b/instaclone-dd87a.appspot.com/o/Avatar%2Favatar.jpg?alt=media&token=2d8a88f0-c11e-415a-bad7-c05a7aa13f7e")
   followedBy    User[]      @relation("UserFollows", references: [id])
   following     User[]      @relation("UserFollows", references: [id])
   posts         Post[]
@@ -27,6 +27,9 @@ model User {
   chatRooms     Chat[]   
   messages      Message[]
   loginSecret   String      @default("")
+  notification  Notification?  
+  saved         Post[]      @relation("saved")
+  tagged        Post[]      @relation("tagged")
 }
 model Like{
   id            String      @id @default(uuid())
@@ -55,7 +58,8 @@ model Post {
   user          User        @relation(fields: [userId], references: [id])
   likes         Like[]
   comments      Comment[]
-  photos       Photo[]
+  photos        Photo[]
+  tagged        User[]      @relation("tagged")
 }
 
 model Photo{
@@ -81,4 +85,13 @@ model Message{
   from          User        @relation("From", fields: [fromId], references: [id])
   fromId        String
   to            User[]   
+}
+model Notification{
+  id            String      @id @default(uuid())
+  user          User        @relation("owner", fields: [userId], references: [id])
+  userId        String
+  createdAt     DateTime    @default(now())
+  newLikes      Like[]  
+  newFollowers  User[]
+  newComments   Comment[]
 }

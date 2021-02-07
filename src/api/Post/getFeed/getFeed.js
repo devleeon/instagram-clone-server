@@ -1,9 +1,8 @@
 export default {
   Query: {
-    getFeed: async (_, args, { request, isAuthenticated, prisma }) => {
-      isAuthenticated(request);
+    getFeed: async (_, args, { token, isAuthenticated, prisma }) => {
+      const user = await isAuthenticated(token, prisma);
       const { limit, offset } = args;
-      const { user } = request;
       const followers = await prisma.user
         .findUnique({
           where: {

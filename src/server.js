@@ -1,34 +1,57 @@
 require("dotenv").config();
-import { GraphQLServer } from "graphql-yoga";
+import { PrismaClient } from "@prisma/client";
+import { ApolloServer, PubSub } from "apollo-server-express";
+import express from "express";
+import { createServer } from "http";
 import logger from "morgan";
 import schema from "./schema";
-import "./passport";
-import { authenticateJwt } from "./passport";
+import "./util/firebase";
+import { execute, subscribe } from "graphql";
+import { storage } from "./util/firebase";
 import { isAuthenticated } from "./util/isAuthenticated";
-import cors from "cors";
-import { PrismaClient } from "@prisma/client";
 
-const PORT = process.env.PORT || 4000;
 const prisma = new PrismaClient();
-const server = new GraphQLServer({
+const pubsub = new PubSub();
+const PORT = process.env.PORT || 4000;
+const app = express();
+const server = new ApolloServer({
   schema,
-  context: (req) => ({
-    ...req,
-    isAuthenticated,
-    prisma,
-  }),
+  context: async ({ req, connection }) => {
+    let token;
+    if (connection) {
+      // check connection for metadata
+      token = connection.context;
+    } else {
+      // check from req
+      token = req.headers.token || "";
+    }
+    return {
+      ...req,
+      storage,
+      token,
+      isAuthenticated,
+      prisma,
+      pubsub,
+    };
+  },
+  subscriptions: {
+    path: "/subscriptions",
+  },
 });
+server.applyMiddleware({ app });
 
-// graphql server has a built-in express server
-server.express.use(logger("dev"));
-server.express.use(authenticateJwt);
+const options = {
+  port: PORT,
+};
+app.use(logger("dev"));
+const httpServer = createServer(app);
+server.installSubscriptionHandlers(httpServer);
 
-server.start({ port: PORT }, () =>
-  console.log(`✅server running on http://localhost:${PORT}`)
-);
-
-// prisma.user.deleteMany();
-// const allUser = async () => {
-//   return await prisma.user.findMany();
-// };
-// console.log(allUser());
+httpServer.listen(options, () => {
+  console.log(
+    `🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`
+  );
+  console.log(
+    `🚀 Subscriptions ready at ws://localhost:${PORT}${server.subscriptionsPath}`
+  );
+});

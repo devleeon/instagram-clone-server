@@ -1,13 +1,12 @@
+import { NEW_COMMENT } from "../../../util/constants";
+
 export default {
   Mutation: {
-    addComment: async (_, args, { request, isAuthenticated, prisma }) => {
-      isAuthenticated(request);
-      // needed to add timestamp
+    addComment: async (_, args, { token, isAuthenticated, prisma }) => {
+      const user = await isAuthenticated(token, prisma);
       const { postId, text } = args;
-      const { user } = request;
-
       try {
-        await prisma.post.update({
+        const result = await prisma.post.update({
           where: { id: postId },
           data: {
             comments: { create: { text, user: { connect: { id: user.id } } } },

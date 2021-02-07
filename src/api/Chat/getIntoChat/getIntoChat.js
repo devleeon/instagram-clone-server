@@ -1,9 +1,8 @@
 export default {
   Query: {
-    getIntoChat: async (_, args, { request, isAuthenticated, prisma }) => {
-      isAuthenticated(request);
+    getIntoChat: async (_, args, { token, isAuthenticated, prisma }) => {
+      const user = await isAuthenticated(token, prisma);
       const { id } = args;
-      const { user } = request;
 
       const chat = await prisma.chat.findFirst({
         where: { AND: [{ id }, { participants: { some: { id: user.id } } }] },

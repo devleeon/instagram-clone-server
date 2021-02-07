@@ -1,8 +1,7 @@
 export default {
   Mutation: {
-    createPost: async (_, args, { request, isAuthenticated, prisma }) => {
-      isAuthenticated(request);
-      const { user } = request;
+    createPost: async (_, args, { token, isAuthenticated, prisma }) => {
+      const user = await isAuthenticated(token, prisma);
       const { location, caption, urls } = args;
       try {
         const post = await prisma.post.create({

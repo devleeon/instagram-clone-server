@@ -9,26 +9,26 @@
     "studio": "npx prisma studio"
   },
   "dependencies": {
-    "@apollo/client": "^3.3.7",
     "@babel/core": "^7.12.10",
     "@babel/node": "^7.12.10",
     "@babel/preset-env": "^7.12.11",
     "@prisma/client": "^2.15.0",
+    "apollo-server-express": "^2.19.2",
     "argon2": "^0.27.1",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "firebase": "^8.2.6",
+    "graphql": "^15.5.0",
     "graphql-tools": "^7.0.2",
-    "graphql-yoga": "^1.18.3",
     "jsonwebtoken": "^8.5.1",
-    "merge-graphql-schemas": "^1.7.8",
     "morgan": "^1.10.0",
     "nodemailer": "^6.4.17",
     "nodemailer-sendinblue-transport": "^1.2.3",
-    "passport": "^0.4.1",
-    "passport-jwt": "^4.0.0"
+    "prisma": "^2.16.0",
+    "subscriptions-transport-ws": "^0.9.18"
   },
   "devDependencies": {
-    "@prisma/cli": "^2.15.0",
     "nodemon": "^2.0.6"
   },
   "engines": {

@@ -1,6 +1,6 @@
 import argon from "argon2";
 import generateToken from "../../../util/generateToken";
-
+import jwt from "jsonwebtoken";
 export default {
   Mutation: {
     login: async (_, args, { prisma }) => {

@@ -1,8 +1,8 @@
+import jwt from "jsonwebtoken";
 export default {
   Query: {
-    me: async (_, __, { request, isAuthenticated, prisma }) => {
-      isAuthenticated(request);
-      const { user } = request;
+    me: async (_, __, { isAuthenticated, token, prisma }) => {
+      const user = await isAuthenticated(token, prisma);
       return user;
     },
   },

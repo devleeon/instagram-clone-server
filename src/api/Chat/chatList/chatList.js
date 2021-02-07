@@ -1,8 +1,7 @@
 export default {
   Query: {
-    chatList: async (_, __, { request, isAuthenticated, prisma }) => {
-      isAuthenticated(request);
-      const { user } = request;
+    chatList: async (_, __, { token, isAuthenticated, prisma }) => {
+      const user = await isAuthenticated(token, prisma);
       const chats = await prisma.chat.findMany({
         where: { participants: { some: { id: user.id } } },
       });

@@ -23,6 +23,9 @@ type User {
   chatRooms: [Chat]
   loginSecret: String
   isSelf: Boolean!
+  notifications: Notification
+  saved: [Post]
+  tagged: [Post]
 }
 
 type Post {
@@ -37,6 +40,8 @@ type Post {
   likes: [Like]
   isLiked: Boolean!
   numberOfLikes: Int!
+  numberOfComments: Int!
+  tagged: [User]
 }
 
 type Like {
@@ -79,3 +84,19 @@ type Message {
   from: User!
   to: [User]!
 }
+type Notification {
+  id: ID!
+  user: User!
+  userId: String!
+  createdAt: String!
+  newLikes: [Like]
+  newFollowers: [User]
+  newComments: [Comment]
+}
+type File {
+  filename: String!
+  mimetype: String!
+  encoding: String!
+}
+
+scalar FileUpload
