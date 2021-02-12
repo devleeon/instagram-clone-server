@@ -1,30 +1,25 @@
-import { NEW_LIKE } from "../../../util/constants";
 import prisma from "../../../util/prisma";
 
 export default {
   Mutation: {
-    toggleLike: async (_, args, { token, isAuthenticated, pubsub }) => {
+    savePost: async (_, args, { token, isAuthenticated }) => {
       const { postId } = args;
       const userId = await isAuthenticated(token);
-      const existingLike = await prisma.like.findFirst({
+      const isSaved = await prisma.save.findFirst({
         where: { AND: [{ postId }, { userId }] },
       });
-      let result;
-      if (Boolean(existingLike)) {
+      if (Boolean(isSaved)) {
         // const result = await prisma.like.delete({
         //   where: { id: existingLike.id },
         // });
-        result = await prisma.$executeRaw`DELETE FROM "Like" WHERE id = ${existingLike.id};`;
+        await prisma.$executeRaw`DELETE FROM "Save" WHERE id = ${isSaved.id};`;
+        return false;
       } else {
-        result = await prisma.like.create({
+        await prisma.save.create({
           data: {
             post: { connect: { id: postId } },
             user: { connect: { id: userId } },
           },
-        });
-        pubsub.publish(NEW_LIKE, {
-          notification: { liked: result },
-          liked: result,
         });
       }
       return true;

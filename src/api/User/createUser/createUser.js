@@ -1,8 +1,10 @@
 import argon from "argon2";
 import generateToken from "../../../util/generateToken";
+import prisma from "../../../util/prisma";
+
 export default {
   Mutation: {
-    createUser: async (_, args, { prisma }) => {
+    createUser: async (_, args) => {
       const { username, emailOrPhone, firstname, password } = args;
       let doesExist, email, phoneNo;
       emailOrPhone.includes("@")

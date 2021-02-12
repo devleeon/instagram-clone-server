@@ -1,6 +1,8 @@
+import prisma from "../../../util/prisma";
+
 export default {
   Query: {
-    getProfilePost: async (_, args, { prisma }) => {
+    getProfilePost: async (_, args) => {
       const { username, limit, offset } = args;
       const posts = await prisma.post.findMany({
         take: limit,

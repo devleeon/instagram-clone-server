@@ -24,8 +24,8 @@ type User {
   loginSecret: String
   isSelf: Boolean!
   notifications: Notification
-  saved: [Post]
-  tagged: [Post]
+  saved: [Save]
+  tagged: [Tagged]
 }
 
 type Post {
@@ -41,9 +41,22 @@ type Post {
   isLiked: Boolean!
   numberOfLikes: Int!
   numberOfComments: Int!
-  tagged: [User]
+  isSaved: Boolean!
 }
-
+type Save {
+  id: ID!
+  user: User!
+  userId: String!
+  post: Post!
+  postId: String!
+}
+type Tagged {
+  id: ID!
+  user: User!
+  userId: String!
+  photo: Photo!
+  photoId: String!
+}
 type Like {
   id: ID!
   user: User!
@@ -65,6 +78,7 @@ type Photo {
   id: ID!
   url: String!
   post: Post!
+  tagged: [Tagged]
 }
 
 type Chat {

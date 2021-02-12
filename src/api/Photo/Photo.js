@@ -1,6 +1,7 @@
+import prisma from "../../util/prisma";
+
 export default {
   Photo: {
-    post: ({ id }, _, { prisma }) =>
-      prisma.photo.findUnique({ where: { id } }).post(),
+    post: ({ id }) => prisma.photo.findUnique({ where: { id } }).post(),
   },
 };

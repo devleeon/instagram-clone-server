@@ -28,10 +28,24 @@ model User {
   messages      Message[]
   loginSecret   String      @default("")
   notification  Notification?  
-  saved         Post[]      @relation("saved")
-  tagged        Post[]      @relation("tagged")
+  saved         Save[]      
+  tagged        Tagged[]    
 }
 model Like{
+  id            String      @id @default(uuid())
+  user          User        @relation(fields: [userId], references: [id])
+  userId        String
+  post          Post        @relation(fields: [postId], references: [id])
+  postId        String
+}
+model Tagged{
+  id            String      @id @default(uuid())
+  user          User        @relation(fields: [userId], references: [id])
+  userId        String
+  photo         Photo       @relation(fields: [photoId], references: [id])
+  photoId       String
+}
+model Save{
   id            String      @id @default(uuid())
   user          User        @relation(fields: [userId], references: [id])
   userId        String
@@ -59,7 +73,7 @@ model Post {
   likes         Like[]
   comments      Comment[]
   photos        Photo[]
-  tagged        User[]      @relation("tagged")
+  saved         Save[]
 }
 
 model Photo{
@@ -67,6 +81,7 @@ model Photo{
   url           String
   post          Post        @relation(fields: [postId], references: [id])
   postId        String
+  tagged        Tagged[]    
 }
 model Chat{
   id            String      @id @default(uuid())

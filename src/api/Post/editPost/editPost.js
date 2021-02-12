@@ -1,11 +1,12 @@
+import prisma from "../../../util/prisma";
+
 export default {
   Mutation: {
-    editPost: async (_, args, { request, isAuthenticated, prisma }) => {
-      isAuthenticated(request);
-      const { user } = request;
+    editPost: async (_, args, { token, isAuthenticated }) => {
+      const userId = await isAuthenticated(token);
       const { id, location, caption, action } = args;
       const isOwner = await prisma.post.findFirst({
-        where: { AND: [{ userId: user.id }, { id }] },
+        where: { AND: [{ userId }, { id }] },
       });
       const post = await prisma.post.findUnique({ where: { id } });
 

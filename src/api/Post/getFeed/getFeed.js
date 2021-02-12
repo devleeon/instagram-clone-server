@@ -1,12 +1,14 @@
+import prisma from "../../../util/prisma";
+
 export default {
   Query: {
-    getFeed: async (_, args, { token, isAuthenticated, prisma }) => {
-      const user = await isAuthenticated(token, prisma);
+    getFeed: async (_, args, { token, isAuthenticated }) => {
+      const id = await isAuthenticated(token);
       const { limit, offset } = args;
       const followers = await prisma.user
         .findUnique({
           where: {
-            id: user.id,
+            id,
           },
         })
         .following();
@@ -17,7 +19,7 @@ export default {
           take: limit,
           where: {
             user: {
-              id: { in: [...followers.map((user) => user.id), user.id] },
+              id: { in: [...followers.map((user) => user.id), id] },
             },
           },
           orderBy: { createdAt: "desc" },
@@ -27,7 +29,7 @@ export default {
           take: limit,
           where: {
             user: {
-              id: { in: [...followers.map((user) => user.id), user.id] },
+              id: { in: [...followers.map((user) => user.id), id] },
             },
           },
           orderBy: { createdAt: "desc" },

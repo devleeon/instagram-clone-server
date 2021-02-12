@@ -1,6 +1,7 @@
+import prisma from "../../util/prisma";
+
 export default {
   Comment: {
-    user: async ({ id }, _, { prisma }) =>
-      prisma.comment.findUnique({ where: { id } }).user(),
+    user: async ({ id }) => prisma.comment.findUnique({ where: { id } }).user(),
   },
 };

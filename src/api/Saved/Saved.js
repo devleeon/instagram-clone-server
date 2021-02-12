@@ -1,12 +1,12 @@
 import prisma from "../../util/prisma";
 
 export default {
-  Like: {
+  Save: {
     user: async ({ id }) => {
-      return prisma.like.findUnique({ where: { id } }).user();
+      return prisma.save.findUnique({ where: { id } }).user();
     },
     post: async ({ id }) => {
-      return prisma.like.findUnique({ where: { id } }).post();
+      return prisma.save.findUnique({ where: { id } }).post();
     },
   },
 };

@@ -1,15 +1,17 @@
+import prisma from "../../../util/prisma";
+
 export default {
   Query: {
-    getIntoChat: async (_, args, { token, isAuthenticated, prisma }) => {
-      const user = await isAuthenticated(token, prisma);
+    getIntoChat: async (_, args, { token, isAuthenticated }) => {
+      const userId = await isAuthenticated(token);
       const { id } = args;
 
       const chat = await prisma.chat.findFirst({
-        where: { AND: [{ id }, { participants: { some: { id: user.id } } }] },
+        where: { AND: [{ id }, { participants: { some: { id: userId } } }] },
       });
       const messages = await prisma.chat
         .findFirst({
-          where: { AND: [{ id }, { participants: { some: { id: user.id } } }] },
+          where: { AND: [{ id }, { participants: { some: { id: userId } } }] },
         })
         .messages();
       if (!chat) {

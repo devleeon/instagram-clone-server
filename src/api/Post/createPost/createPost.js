@@ -1,14 +1,16 @@
+import prisma from "../../../util/prisma";
+
 export default {
   Mutation: {
-    createPost: async (_, args, { token, isAuthenticated, prisma }) => {
-      const user = await isAuthenticated(token, prisma);
+    createPost: async (_, args, { token, isAuthenticated }) => {
+      const id = await isAuthenticated(token);
       const { location, caption, urls } = args;
       try {
         const post = await prisma.post.create({
           data: {
             location,
             caption,
-            user: { connect: { id: user.id } },
+            user: { connect: { id } },
           },
         });
         urls.forEach(async (url) => {

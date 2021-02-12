@@ -1,7 +1,8 @@
+import prisma from "../../../util/prisma";
 export default {
   Mutation: {
-    unfollow: async (_, args, { token, isAuthenticated, prisma }) => {
-      const user = await isAuthenticated(token, prisma);
+    unfollow: async (_, args, { token, isAuthenticated }) => {
+      const id = await isAuthenticated(token);
       const { username } = args;
       const unfollowUser = await prisma.user.findUnique({
         where: { username },
@@ -11,7 +12,7 @@ export default {
       } else {
         try {
           await prisma.user.update({
-            where: { id: user.id },
+            where: { id },
             data: {
               following: { disconnect: { username } },
             },

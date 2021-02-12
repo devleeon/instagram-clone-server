@@ -1,9 +1,11 @@
+import prisma from "../../../util/prisma";
+
 export default {
   Query: {
-    chatList: async (_, __, { token, isAuthenticated, prisma }) => {
-      const user = await isAuthenticated(token, prisma);
+    chatList: async (_, __, { token, isAuthenticated }) => {
+      const id = await isAuthenticated(token);
       const chats = await prisma.chat.findMany({
-        where: { participants: { some: { id: user.id } } },
+        where: { participants: { some: { id } } },
       });
 
       if (!chats) {

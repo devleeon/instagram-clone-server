@@ -1,9 +1,10 @@
 import argon from "argon2";
 import generateToken from "../../../util/generateToken";
-import jwt from "jsonwebtoken";
+import prisma from "../../../util/prisma";
+
 export default {
   Mutation: {
-    login: async (_, args, { prisma }) => {
+    login: async (_, args) => {
       const { emailOrUsername, password } = args;
       const user = await prisma.user.findUnique(
         emailOrUsername.includes("@")

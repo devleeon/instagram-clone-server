@@ -1,26 +1,35 @@
+import prisma from "../../util/prisma";
+
 export default {
   Post: {
-    photos: ({ id }, _, { prisma }) =>
-      prisma.post.findUnique({ where: { id } }).photos(),
-    comments: ({ id }, _, { prisma }) =>
-      prisma.post.findUnique({ where: { id } }).comments(),
-    user: ({ id }, _, { prisma }) =>
-      prisma.post.findUnique({ where: { id } }).user(),
-    likes: ({ id }, _, { prisma }) =>
-      prisma.post.findUnique({ where: { id } }).likes(),
-    isLiked: async (root, _, { token, isAuthenticated, prisma }) => {
-      const user = await isAuthenticated(token, prisma);
+    photos: ({ id }) => prisma.post.findUnique({ where: { id } }).photos(),
+    comments: ({ id }) =>
+      prisma.post.findUnique({ where: { id } }).comments({ take: 2 }),
+    user: ({ id }) => prisma.post.findUnique({ where: { id } }).user(),
+    likes: ({ id }) =>
+      prisma.post.findUnique({ where: { id } }).likes({ take: 10 }),
+    isLiked: async (root, _, { token, isAuthenticated }) => {
+      const id = await isAuthenticated(token);
       const { id: postId } = root;
       const result = await prisma.like.findFirst({
-        where: { AND: [{ postId }, { userId: user.id }] },
+        where: { AND: [{ postId }, { userId: id }] },
       });
       return Boolean(result);
     },
-    numberOfLikes: async (root, _, { prisma }) => {
+    isSaved: async (root, _, { token, isAuthenticated }) => {
+      const userId = await isAuthenticated(token);
+      const { id: postId } = root;
+      const result = await prisma.save.findFirst({
+        where: { AND: [{ postId }, { userId }] },
+      });
+      console.log(result);
+      return Boolean(result);
+    },
+    numberOfLikes: async (root) => {
       const { id } = root;
       return prisma.like.count({ where: { postId: id } });
     },
-    numberOfComments: async (root, _, { prisma }) => {
+    numberOfComments: async (root) => {
       const { id } = root;
       return prisma.comment.count({ where: { postId: id } });
     },

@@ -1,16 +1,13 @@
 require("dotenv").config();
-import { PrismaClient } from "@prisma/client";
 import { ApolloServer, PubSub } from "apollo-server-express";
 import express from "express";
 import { createServer } from "http";
 import logger from "morgan";
 import schema from "./schema";
 import "./util/firebase";
-import { execute, subscribe } from "graphql";
 import { storage } from "./util/firebase";
 import { isAuthenticated } from "./util/isAuthenticated";
 
-const prisma = new PrismaClient();
 const pubsub = new PubSub();
 const PORT = process.env.PORT || 4000;
 const app = express();
@@ -30,7 +27,6 @@ const server = new ApolloServer({
       storage,
       token,
       isAuthenticated,
-      prisma,
       pubsub,
     };
   },
