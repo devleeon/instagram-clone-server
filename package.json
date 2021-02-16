@@ -3,16 +3,20 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
+    "preinstall": "npx npm-force-resolutions",
     "gen": "npx prisma generate",
     "migrate": "npx prisma migrate dev --preview-feature",
     "dev": "nodemon --exec babel-node src/server.js delay 2",
     "studio": "npx prisma studio",
-    "preinstall": "npx npm-force-resolutions"
+    "build": "babel src -d build"
   },
   "dependencies": {
+    "@babel/cli": "^7.12.16",
     "@babel/core": "^7.12.10",
     "@babel/node": "^7.12.10",
+    "@babel/plugin-transform-runtime": "^7.12.15",
     "@babel/preset-env": "^7.12.11",
+    "@babel/runtime": "^7.12.13",
     "@prisma/client": "^2.15.0",
     "apollo-server-express": "^2.19.2",
     "argon2": "^0.27.1",

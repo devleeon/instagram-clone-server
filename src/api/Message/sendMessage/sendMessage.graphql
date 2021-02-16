@@ -1,3 +1,0 @@
-type Mutation {
-  sendMessage(id: String, text: String!, to: [String!]!): Boolean!
-}

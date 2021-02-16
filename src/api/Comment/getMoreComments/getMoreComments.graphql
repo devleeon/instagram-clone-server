@@ -1,3 +1,0 @@
-type Query {
-  getMoreComments(postId: String!, limit: Int!, offset: Int!): [Comment]
-}

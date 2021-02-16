@@ -3,7 +3,6 @@ export default {
   Query: {
     searchUsers: async (_, args) => {
       const { query } = args;
-      console.log("query: ", query);
       const users = await prisma.user.findMany({
         where: {
           OR: [

@@ -1,3 +1,0 @@
-type Subscription {
-  notification(username: String!): Notification
-}

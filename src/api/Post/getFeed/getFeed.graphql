@@ -1,3 +1,0 @@
-type Query {
-  getFeed(limit: Int!, offset: Int): [Post]
-}

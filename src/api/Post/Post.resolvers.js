@@ -14,6 +14,7 @@ export default {
       const result = await prisma.like.findFirst({
         where: { AND: [{ postId }, { userId: id }] },
       });
+      console.log(result);
       return Boolean(result);
     },
     isSaved: async (root, _, { token, isAuthenticated }) => {

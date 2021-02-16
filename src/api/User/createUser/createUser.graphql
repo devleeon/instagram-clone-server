@@ -1,8 +1,0 @@
-type Mutation {
-  createUser(
-    username: String!
-    emailOrPhone: String!
-    password: String!
-    firstname: String
-  ): UserResult!
-}

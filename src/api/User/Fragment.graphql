@@ -1,9 +1,0 @@
-type UserResult {
-  user: User
-  error: ErrorField
-  token: String
-}
-type ErrorField {
-  message: String!
-  location: String!
-}
