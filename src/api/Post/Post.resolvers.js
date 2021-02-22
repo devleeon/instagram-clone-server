@@ -4,7 +4,13 @@ export default {
   Post: {
     photos: ({ id }) => prisma.post.findUnique({ where: { id } }).photos(),
     comments: ({ id }) =>
-      prisma.post.findUnique({ where: { id } }).comments({ take: 2 }),
+      prisma.comment.findMany({
+        take: 2,
+        where: {
+          postId: id,
+        },
+        orderBy: { createdAt: "asc" },
+      }),
     user: ({ id }) => prisma.post.findUnique({ where: { id } }).user(),
     likes: ({ id }) =>
       prisma.post.findUnique({ where: { id } }).likes({ take: 10 }),
@@ -14,7 +20,6 @@ export default {
       const result = await prisma.like.findFirst({
         where: { AND: [{ postId }, { userId: id }] },
       });
-      console.log(result);
       return Boolean(result);
     },
     isSaved: async (root, _, { token, isAuthenticated }) => {
@@ -23,7 +28,6 @@ export default {
       const result = await prisma.save.findFirst({
         where: { AND: [{ postId }, { userId }] },
       });
-      console.log(result);
       return Boolean(result);
     },
     numberOfLikes: async (root) => {
@@ -32,7 +36,11 @@ export default {
     },
     numberOfComments: async (root) => {
       const { id } = root;
-      return prisma.comment.count({ where: { postId: id } });
+      return await prisma.comment.count({ where: { postId: id } });
+    },
+    hasMoreComments: async (root) => {
+      const { id } = root;
+      return (await prisma.comment.count({ where: { postId: id } })) > 2;
     },
   },
 };

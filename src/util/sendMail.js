@@ -16,7 +16,7 @@ export const sendSecretMail = async (address, secret, username) => {
     from: "security@instaclone.com", // sender address
     to: address, // list of receivers
     subject: `Dear ${username}, now you can login more easily!`, // Subject line
-    html: `Hello! Your login secret it <a href="http://localhost:3000/forgotpassword">dsasds<a>${secret}</strong>.<br/>Copy paste on the app/website to log in`, // html body
+    html: `Hello! Your login secret it <a href="http://localhost:3000/forgotpassword"><a>${secret}</strong>.<br/>Copy paste on the app/website to log in`, // html body
   };
   return await sendMail(email);
 };

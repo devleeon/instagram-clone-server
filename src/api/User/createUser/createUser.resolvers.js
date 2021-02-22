@@ -36,7 +36,18 @@ export default {
         }
       }
       if (phoneNo) {
-        doesExist = await prisma.user.findUnique({ where: { phoneNo } });
+        if (!phoneNo.match(/\d{4,}/g)) {
+          return {
+            error: {
+              message: `provided phone number is not a valid type`,
+              location: "phoneNo",
+            },
+          };
+        }
+        doesExist = await prisma.user.findUnique({
+          where: { phoneNo },
+          select: { phoneNo: true },
+        });
         if (doesExist) {
           // same phoneNo is already being used
           return {

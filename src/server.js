@@ -4,10 +4,8 @@ import express from "express";
 import { createServer } from "http";
 import logger from "morgan";
 import schema from "./schema";
-import "./util/firebase";
-import { storage } from "./util/firebase";
 import { isAuthenticated } from "./util/isAuthenticated";
-
+import "./util/cloudinary";
 const pubsub = new PubSub();
 const PORT = process.env.PORT || 4000;
 const app = express();
@@ -24,7 +22,6 @@ const server = new ApolloServer({
     }
     return {
       ...req,
-      storage,
       token,
       isAuthenticated,
       pubsub,

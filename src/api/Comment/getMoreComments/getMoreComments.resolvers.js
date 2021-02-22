@@ -4,9 +4,21 @@ export default {
   Query: {
     getMoreComments: async (_, args, {}) => {
       const { postId, limit, offset } = args;
-      const moreComments = await prisma.post
-        .findUnique({ where: { id: postId } })
-        .comments({ take: limit, skip: offset });
+
+      const comments = await prisma.comment.findMany({
+        take: limit,
+        skip: offset,
+        where: {
+          postId,
+        },
+        orderBy: { createdAt: "asc" },
+      });
+      const hasMore =
+        (await prisma.comment.count({ where: { postId } })) > limit + offset;
+      return {
+        comments,
+        hasMore,
+      };
     },
   },
 };

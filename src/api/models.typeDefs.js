@@ -44,9 +44,11 @@ export default gql`
     numberOfLikes: Int!
     numberOfComments: Int!
     isSaved: Boolean!
+    hasMoreComments: Boolean!
   }
   type Save {
     id: ID!
+    createdAt: String!
     user: User!
     userId: String!
     post: Post!

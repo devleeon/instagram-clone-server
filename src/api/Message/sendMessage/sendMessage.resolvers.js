@@ -1,8 +1,9 @@
+import { NEW_MESSAGE } from "../../../util/constants";
 import prisma from "../../../util/prisma";
 
 export default {
   Mutation: {
-    sendMessage: async (_, args, { token, isAuthenticated }) => {
+    sendMessage: async (_, args, { token, isAuthenticated, pubsub }) => {
       const user = await isAuthenticated(token, prisma);
       const { id, text, to } = args;
       let room;
@@ -41,6 +42,9 @@ export default {
           },
           chatRoom: { connect: { id: room.id } },
         },
+      });
+      pubsub.publish(NEW_MESSAGE, {
+        notification: { message },
       });
       return true;
     },

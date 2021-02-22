@@ -18,7 +18,7 @@ model User {
   lastname      String?     @default("")
   phoneNo       String?     @unique
   bio           String?     @default("")
-  avatar        String      @default("https://firebasestorage.googleapis.com/v0/b/instaclone-dd87a.appspot.com/o/Avatar%2Favatar.jpg?alt=media&token=2d8a88f0-c11e-415a-bad7-c05a7aa13f7e")
+  avatar        String      @default("")
   followedBy    User[]      @relation("UserFollows", references: [id])
   following     User[]      @relation("UserFollows", references: [id])
   posts         Post[]
@@ -47,6 +47,7 @@ model Tagged{
 }
 model Save{
   id            String      @id @default(uuid())
+  createdAt     DateTime    @default(now())
   user          User        @relation(fields: [userId], references: [id])
   userId        String
   post          Post        @relation(fields: [postId], references: [id])

@@ -1,6 +1,6 @@
 import { gql } from "apollo-server-express";
 export default gql`
-  type Subscription {
+  type Query {
     notification(username: String!): Notification
   }
 `;

@@ -5,33 +5,15 @@ import prisma from "../../../util/prisma";
 export default {
   Mutation: {
     requestSecret: async (_, args) => {
-      const { emailOrUsername } = args;
-      const user = await prisma.user.findUnique(
-        emailOrUsername.includes("@")
-          ? {
-              where: { email: emailOrUsername },
-            }
-          : {
-              where: { username: emailOrUsername },
-            }
-      );
+      const { email } = args;
+      const user = await prisma.user.findUnique({ where: { email } });
       if (!user) {
-        if (emailOrUsername.includes("@")) {
-          return {
-            error: {
-              message: `Email address ${emailOrUsername} doesn't exist \nPlease sign up first`,
-              location: "emailOrUsername",
-            },
-          };
-        } else {
-          // wrong username
-          return {
-            error: {
-              message: `The username ${emailOrUsername} doesn't exist \nPlease sign up first`,
-              location: "emailOrUsername",
-            },
-          };
-        }
+        return {
+          error: {
+            message: `Email address ${email} doesn't exist \nPlease sign up first`,
+            location: "email",
+          },
+        };
       }
       const secret = generateSecret();
       await prisma.user.update({
