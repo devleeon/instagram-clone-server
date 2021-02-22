@@ -20,12 +20,13 @@ export default {
       //   })
       //   .messages({ take: 15 });
       if (!chat) {
-        await prisma.chat.create({
+        const result = await prisma.chat.create({
           data: {
             participants: { connect: { id: userId } },
             participants: { connect: { id: toId } },
           },
         });
+        return result;
       } else {
         return chat;
       }

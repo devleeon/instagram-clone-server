@@ -49,7 +49,6 @@ export default {
       const readStream = createReadStream();
       try {
         await uploadStream(readStream);
-        console.log(url);
         return { url };
       } catch {
         return { error: err };
