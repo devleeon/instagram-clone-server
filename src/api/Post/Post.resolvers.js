@@ -5,7 +5,6 @@ export default {
     photos: ({ id }) => prisma.post.findUnique({ where: { id } }).photos(),
     comments: ({ id }) =>
       prisma.comment.findMany({
-        take: 2,
         where: {
           postId: id,
         },
