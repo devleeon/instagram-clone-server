@@ -13,6 +13,7 @@ export default {
           user: { connect: { id } },
         },
       });
+      console.log(caption);
       const uploadStream = async (readStream, index) => {
         try {
           await new Promise((resolve, reject) => {

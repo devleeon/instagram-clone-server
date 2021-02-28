@@ -9,7 +9,6 @@ export default {
           id: postId,
         },
       });
-
       return post;
     },
   },

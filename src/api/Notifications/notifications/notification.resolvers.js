@@ -1,10 +1,10 @@
-import { withFilter } from "apollo-server-express";
-import { NEW_FOLLOWER, NEW_LIKE } from "../../../util/constants";
+import prisma from "../../../util/prisma";
 
 export default {
   Query: {
-    notification: (_, args) => {
-      const { username } = args;
+    notification: async (_, args, { token, isAuthenticated }) => {
+      const id = await isAuthenticated(token);
+      return prisma.notification.findUnique({ where: { userId: id } });
     },
   },
 };

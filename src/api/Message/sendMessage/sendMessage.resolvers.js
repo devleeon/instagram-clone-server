@@ -4,19 +4,19 @@ import prisma from "../../../util/prisma";
 export default {
   Mutation: {
     sendMessage: async (_, args, { token, isAuthenticated, pubsub }) => {
-      const user = await isAuthenticated(token, prisma);
-      const { id, text, to } = args;
+      const id = await isAuthenticated(token);
+      const { chatId, text, to } = args;
       let room;
-      if (id === undefined) {
+      if (chatId === undefined) {
         // chat room doesn't exist
         room = await prisma.chat.create({
           data: {
             participants: {
               connect: [
-                ...to.map((id) => {
-                  return { id };
+                ...to.map((chatId) => {
+                  return { chatId };
                 }),
-                { id: user.id },
+                { id },
               ],
             },
           },
@@ -25,14 +25,14 @@ export default {
         // the chat already exists
         room = await prisma.chat.findUnique({
           where: {
-            id,
+            chatId,
           },
         });
       }
       const message = await prisma.message.create({
         data: {
           text,
-          from: { connect: { id: user.id } },
+          from: { connect: { id } },
           to: {
             connect: [
               ...to.map((id) => {

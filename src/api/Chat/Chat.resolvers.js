@@ -3,7 +3,10 @@ import prisma from "../../util/prisma";
 export default {
   Chat: {
     participants: async ({ id }) => {
-      return prisma.chat.findUnique({ where: { id } }).participants();
+      const participants = await prisma.chat
+        .findUnique({ where: { id } })
+        .participants({ select: { username: true, avatar: true } });
+      return participants;
     },
   },
 };

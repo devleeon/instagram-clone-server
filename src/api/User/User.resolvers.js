@@ -43,5 +43,7 @@ export default {
       await prisma.user.findUnique({ where: { id } }).saved(),
     tagged: async ({ id }) =>
       await prisma.user.findUnique({ where: { id } }).tagged(),
+    chatRooms: async ({ id }) =>
+      await prisma.user.findUnique({ where: { id } }).chatRooms(),
   },
 };
