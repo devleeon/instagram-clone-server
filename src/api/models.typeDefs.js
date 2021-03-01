@@ -100,7 +100,7 @@ export default gql`
     text: String!
     chatRoom: Chat!
     from: User!
-    to: [User]!
+    fromId: String!
   }
   type Notification {
     id: ID!

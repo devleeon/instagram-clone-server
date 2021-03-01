@@ -5,6 +5,6 @@ export default gql`
     hasMore: Boolean!
   }
   type Query {
-    getMoreComments(postId: String!, limit: Int!, offset: Int!): MoreComments
+    getMoreComments(postId: String!, limit: Int, offset: Int): MoreComments
   }
 `;

@@ -6,6 +6,7 @@ export default {
       const id = await isAuthenticated(token);
       const chats = await prisma.chat.findMany({
         where: { participants: { some: { id } } },
+        orderBy: { updatedAt: "desc" },
       });
 
       if (!chats) {
