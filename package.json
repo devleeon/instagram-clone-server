@@ -6,7 +6,7 @@
     "preinstall": "npx npm-force-resolutions",
     "gen": "npx prisma generate",
     "migrate": "npx prisma migrate dev --preview-feature",
-    "dev": "nodemon --exec babel-node src/server.js delay 2",
+    "dev": "nodemon --exec babel-node src/server.js",
     "studio": "npx prisma studio",
     "build": "babel src -d build"
   },
@@ -25,6 +25,8 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "graphql": "^15.5.0",
+    "graphql-redis-subscriptions": "^2.3.1",
+    "graphql-subscriptions": "^1.2.0",
     "graphql-tools": "^7.0.2",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
