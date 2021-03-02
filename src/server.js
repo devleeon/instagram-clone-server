@@ -1,15 +1,27 @@
-import { ApolloServer } from "apollo-server-express";
-import { RedisPubSub } from "graphql-redis-subscriptions";
+import { ApolloServer, PubSub } from "apollo-server-express";
+import cors from "cors";
+import dotenv from "dotenv";
 import express from "express";
+// import { RedisPubSub } from "graphql-redis-subscriptions";
 import { createServer } from "http";
 import logger from "morgan";
-import schema from "./schema.js";
-import cors from "cors";
-import { isAuthenticated } from "./util/isAuthenticated.js";
-import "./util/cloudinary.js";
-import dotenv from "dotenv";
+import schema from "./schema";
+import "./util/cloudinary";
+import { isAuthenticated } from "./util/isAuthenticated";
 dotenv.config();
-const pubsub = new RedisPubSub();
+// const redisOptions = {
+//   host: REDIS_DOMAIN_NAME,
+//   port: PORT_NUMBER,
+//   retryStrategy: (times) => {
+//     // reconnect after
+//     return Math.min(times * 50, 2000);
+//   },
+// };
+// const pubsub = new RedisPubSub({
+//   publisher: new Redis(redisOptions),
+//   subscriber: new Redis(redisOptions),
+// });
+const pubsub = new PubSub();
 const PORT = process.env.PORT || 4000;
 const app = express();
 const server = new ApolloServer({
@@ -20,7 +32,7 @@ const server = new ApolloServer({
       // check connection for metadata
       token = connection.context;
     } else {
-      // check from req 
+      // check from req
       token = req.headers.token || "";
     }
     return {
