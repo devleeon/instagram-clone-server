@@ -51,7 +51,7 @@ server.applyMiddleware({ app });
 const options = {
   port: PORT,
 };
-app.set("proxy", 1);
+app.set("trust proxy", true);
 app.use(logger("dev"));
 app.use(cors({ origin: process.env.CORS_ORIGIN, credentials: true }));
 const httpServer = createServer(app);

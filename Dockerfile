@@ -4,10 +4,13 @@ FROM node:14
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
+
+ADD nginx.conf.sigil /usr/src/app
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 # where available (npm@5+)
 COPY package*.json yarn.lock ./
+
 
 RUN yarn
 
