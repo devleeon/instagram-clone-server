@@ -33,7 +33,7 @@
 
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://instagram-clone-web-rixygvfnf-devleeon.vercel.app/#/)
+[See Demo Page](https://instagram-clone-web-rixygvfnf-devleeon.vercel.app/#/)
 
 This project will develop a back-end for Instagram clone page
 
