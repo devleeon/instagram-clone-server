@@ -1,4 +1,5 @@
 import prisma from "../../../util/prisma";
+import cloudinary from "cloudinary";
 
 export default {
   Mutation: {
@@ -9,7 +10,9 @@ export default {
         where: { AND: [{ userId }, { id }] },
       });
       const post = await prisma.post.findUnique({ where: { id } });
-
+      const photosLength = await (
+        await prisma.post.findUnique({ where: { id } }).photos()
+      ).length;
       if (!isOwner) {
         throw Error("Invalid approach. You are not the owner of the post.");
       }
@@ -29,6 +32,10 @@ export default {
         default:
           //action === "DELETE"
           await prisma.$executeRaw`DELETE FROM "Post" WHERE id = ${id};`;
+          for (let i = 0; i < photosLength; i++) {
+            await cloudinary.v2.api.delete_resources(`post/${post.id}/${i}`);
+          }
+          await cloudinary.v2.api.delete_folder(`post/${post.id}`);
           return true;
       }
     },
