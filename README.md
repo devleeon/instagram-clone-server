@@ -63,8 +63,8 @@ Post
 - [x] Create Posts
 - [x] Like Posts
 - [x] Save Posts
+- [x] Add Comments
 - [ ] Edit Posts
-- [ ] Add Comments
 - [ ] Hashtags
 - [ ] Video Posts
 

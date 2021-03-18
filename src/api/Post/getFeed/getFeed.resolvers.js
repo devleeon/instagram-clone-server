@@ -2,9 +2,8 @@ import prisma from "../../../util/prisma";
 
 export default {
   Query: {
-    getFeed: async (_, args, { token, isAuthenticated }) => {
+    getFeed: async (_, { limit = 5, cursor }, { token, isAuthenticated }) => {
       const id = await isAuthenticated(token);
-      const { limit, offset } = args;
       const followers = await prisma.user
         .findUnique({
           where: {
@@ -13,10 +12,18 @@ export default {
         })
         .following();
       let posts;
-      if (!offset) {
+      const allPosts = await prisma.post.findMany({
+        where: {
+          user: {
+            id: { in: [...followers.map((user) => user.id), id] },
+          },
+        },
+        orderBy: { createdAt: "desc" },
+      });
+      if (!cursor) {
         //first request
         posts = await prisma.post.findMany({
-          take: limit,
+          take: limit + 1,
           where: {
             user: {
               id: { in: [...followers.map((user) => user.id), id] },
@@ -26,17 +33,24 @@ export default {
         });
       } else {
         posts = await prisma.post.findMany({
-          take: limit,
+          take: limit + 1,
+          cursor: { id: cursor },
           where: {
             user: {
               id: { in: [...followers.map((user) => user.id), id] },
             },
           },
           orderBy: { createdAt: "desc" },
-          skip: offset,
         });
       }
-      return posts;
+      return {
+        feed: posts.slice(0, limit),
+        cursor: posts.length ? posts[posts.length - 1].id : null,
+        hasMore: posts.length
+          ? posts[limit > posts.length ? posts.length - 1 : limit - 1].id !==
+            allPosts[allPosts.length - 1].id
+          : false,
+      };
     },
   },
 };

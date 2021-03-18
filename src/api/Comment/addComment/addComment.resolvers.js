@@ -7,15 +7,14 @@ export default {
       const id = await isAuthenticated(token);
       const { postId, text } = args;
       try {
-        const result = await prisma.post.update({
-          where: { id: postId },
-          data: {
-            comments: { create: { text, user: { connect: { id } } } },
-          },
+        const newComment = await prisma.comment.create({
+          data: { text, userId: id, postId },
         });
-        return true;
+
+        console.log(newComment);
+        return newComment;
       } catch {
-        return false;
+        return null;
       }
     },
   },
