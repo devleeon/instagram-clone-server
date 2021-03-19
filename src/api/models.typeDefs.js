@@ -91,6 +91,7 @@ export default gql`
     updatedAt: String!
     participants: [User!]!
     messages: [Message]
+    participantsExceptMe: [User!]
   }
 
   type Message {

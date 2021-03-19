@@ -15,23 +15,31 @@ export default {
       return Boolean(result);
     },
     followedBy: async ({ id }) =>
-      await prisma.user.findUnique({ where: { id } }).followedBy(),
+      await prisma.user
+        .findUnique({ where: { id } })
+        .followedBy({ select: { id: true, username: true, avatar: true } }),
     following: async ({ id }) =>
-      await prisma.user.findUnique({ where: { id } }).following(),
+      await prisma.user
+        .findUnique({ where: { id } })
+        .following({ select: { id: true, username: true, avatar: true } }),
     numberOfFollowers: async ({ id }) => {
       const count = await prisma.user
         .findUnique({ where: { id } })
-        .followedBy();
+        .followedBy({ select: { id: true } });
       return count.length;
     },
     numberOfFollowings: async ({ id }) => {
-      const count = await prisma.user.findUnique({ where: { id } }).following();
+      const count = await prisma.user
+        .findUnique({ where: { id } })
+        .following({ select: { id: true } });
       return count.length;
     },
     posts: async ({ id }) =>
       await prisma.user.findUnique({ where: { id } }).posts(),
     numberOfPosts: async ({ id }) => {
-      const count = await prisma.user.findUnique({ where: { id } }).posts();
+      const count = await prisma.user
+        .findUnique({ where: { id } })
+        .posts({ select: { id: true } });
       return count.length;
     },
     isSelf: async (root, _, { isAuthenticated, token }) => {
