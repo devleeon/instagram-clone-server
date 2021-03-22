@@ -16,21 +16,27 @@ export default {
         // });
         result = await prisma.$executeRaw`DELETE FROM "Like" WHERE id = ${existingLike.id};`;
       } else {
+        const post = await prisma.post.findUnique({
+          where: { id: postId },
+        });
+        if (!post) {
+          // post doesn't exist
+          return false;
+        }
         result = await prisma.like.create({
           data: {
             post: { connect: { id: postId } },
             user: { connect: { id: userId } },
           },
         });
-        await prisma.notification.create({
+        const notif = await prisma.notification.create({
           data: {
-            userId,
+            userId: post.userId,
             likeId: result.id,
           },
         });
         pubsub.publish(NEW_LIKE, {
-          notification: { liked: result },
-          liked: result,
+          newNotification: notif,
         });
       }
       return true;

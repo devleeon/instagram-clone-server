@@ -6,6 +6,15 @@ export default {
     addComment: async (_, args, { token, isAuthenticated, pubsub }) => {
       const id = await isAuthenticated(token);
       const { postId, text } = args;
+      const post = await prisma.post.findUnique({
+        where: { id: postId },
+        select: { userId: true },
+      });
+      if (!post) {
+        // post doesn't exist
+        console.log("post doesn't exist");
+        return null;
+      }
       try {
         const newComment = await prisma.comment.create({
           data: {
@@ -14,13 +23,16 @@ export default {
             postId,
           },
         });
-        await prisma.notification.create({
+
+        const notif = await prisma.notification.create({
           data: {
-            userId: id,
+            userId: post.userId,
             commentId: newComment.id,
           },
         });
-        pubsub.publish(NEW_COMMENT, { notification: { newComment } });
+        pubsub.publish(NEW_COMMENT, {
+          newNotification: notif,
+        });
         return newComment;
       } catch (error) {
         console.log(error);

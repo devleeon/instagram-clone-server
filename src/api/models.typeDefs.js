@@ -111,9 +111,8 @@ export default gql`
     userId: String!
     createdAt: String!
     newComment: Comment
-    commentId: String
     newLike: Like
-    likeId: String
+    newFollower: User
   }
   type File {
     filename: String!

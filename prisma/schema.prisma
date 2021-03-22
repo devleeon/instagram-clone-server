@@ -30,6 +30,7 @@ model User {
   notification  Notification[]
   saved         Save[]      
   tagged        Tagged[]    
+  newFollower   Notification? @relation("newFollower")
 }
 model Like{
   id            String      @id @default(uuid())
@@ -112,4 +113,6 @@ model Notification{
   commentId     String?
   newLike       Like?       @relation(fields: [likeId], references: [id])
   likeId        String?
+  newFollower   User?       @relation("newFollower",fields: [followerId], references: [id])
+  followerId    String?
 }

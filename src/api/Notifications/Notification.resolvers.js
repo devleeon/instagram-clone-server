@@ -8,5 +8,8 @@ export default {
     newLike: ({ id }) => {
       return prisma.notification.findUnique({ where: { id } }).newLike();
     },
+    newFollower: ({ id }) => {
+      return prisma.notification.findUnique({ where: { id } }).newFollower();
+    },
   },
 };
