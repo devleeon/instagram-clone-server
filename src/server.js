@@ -22,7 +22,6 @@ const server = new ApolloServer({
       // check connection for metadata
       token = connection.context;
     } else {
-      // check from req
       token = req.headers.token || "";
     }
     return {
