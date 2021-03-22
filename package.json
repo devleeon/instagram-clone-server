@@ -9,7 +9,7 @@
     "dev": "nodemon --exec babel-node src/server.js",
     "studio": "npx prisma studio",
     "build": "babel src -d build",
-    "start": "npx prisma generate && babel-node src/server.js"
+    "start": "npx prisma migrate && babel-node src/server.js"
   },
   "dependencies": {
     "@babel/cli": "^7.12.16",
