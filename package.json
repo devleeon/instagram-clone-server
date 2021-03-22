@@ -8,8 +8,8 @@
     "migrate": "npx prisma migrate dev --preview-feature",
     "dev": "nodemon --exec babel-node src/server.js",
     "studio": "npx prisma studio",
-    "build": "npm run-script migrate && babel src -d build",
-    "start": "npx prisma migrate && babel-node src/server.js"
+    "build": "babel src -d build",
+    "start": "babel-node src/server.js"
   },
   "dependencies": {
     "@babel/cli": "^7.12.16",
