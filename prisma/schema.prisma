@@ -27,7 +27,7 @@ model User {
   chatRooms     Chat[]   
   messages      Message[]
   loginSecret   String      @default("")
-  notification  Notification?  @relation("owner")
+  notification  Notification[]
   saved         Save[]      
   tagged        Tagged[]    
 }
@@ -37,6 +37,7 @@ model Like{
   userId        String
   post          Post        @relation(fields: [postId], references: [id])
   postId        String
+  notification  Notification?
 }
 model Tagged{
   id            String      @id @default(uuid())
@@ -62,6 +63,7 @@ model Comment{
   userId        String
   post          Post        @relation(fields: [postId], references: [id])
   postId        String
+  notification  Notification?
 }
 model Post {
   id            String      @id @default(uuid())
@@ -103,8 +105,11 @@ model Message{
 }
 model Notification{
   id            String      @id @default(uuid())
-  user          User        @relation("owner", fields: [userId], references: [id])
-  userId        String      @unique
+  user          User        @relation(fields: [userId], references: [id])
+  userId        String      
   createdAt     DateTime    @default(now())
-
+  newComment    Comment?    @relation(fields: [commentId], references: [id])
+  commentId     String?
+  newLike       Like?       @relation(fields: [likeId], references: [id])
+  likeId        String?
 }

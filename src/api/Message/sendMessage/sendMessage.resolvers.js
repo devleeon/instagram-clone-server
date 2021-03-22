@@ -23,6 +23,7 @@ export default {
         },
       });
       pubsub.publish(NEW_MESSAGE, { newMessage: message });
+
       return true;
     },
   },

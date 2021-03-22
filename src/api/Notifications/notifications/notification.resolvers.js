@@ -2,15 +2,18 @@ import prisma from "../../../util/prisma";
 
 export default {
   Query: {
-    notification: async (_, args, { token, isAuthenticated }) => {
-      const id = await isAuthenticated(token);
-      return prisma.notification.findUnique({ where: { userId: id } });
+    notification: async (_, __, { token, isAuthenticated }) => {
+      const NOTIFICATION_SIZE = 10;
+      const userId = await isAuthenticated(token);
+      const notifications = await prisma.notification.findMany({
+        where: { userId },
+        orderBy: { createdAt: "desc" },
+      });
+      if (notifications.length > NOTIFICATION_SIZE) {
+        const deleteId = notifications[notifications.length - 1].id;
+        await prisma.$executeRaw`DELETE FROM "Notification" WHERE id = ${deleteId};`;
+      }
+      return notifications;
     },
   },
 };
-
-// withFilter((_, __, { pubsub }) =>
-//         pubsub.asyncIterator(NEW_LIKE, (payload, variables) => {
-//           return payload.liked.postId === variables.postId;
-//         })
-//       ),

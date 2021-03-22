@@ -25,7 +25,7 @@ export default gql`
     chatRooms: [Chat]
     loginSecret: String
     isSelf: Boolean!
-    notifications: Notification
+    notifications: [Notification]
     saved: [Save]
     tagged: [Tagged]
   }
@@ -67,6 +67,7 @@ export default gql`
     userId: String!
     post: Post!
     postId: String!
+    notification: Notification
   }
 
   type Comment {
@@ -76,6 +77,7 @@ export default gql`
     text: String!
     user: User!
     post: Post!
+    notification: Notification
   }
 
   type Photo {
@@ -108,9 +110,10 @@ export default gql`
     user: User!
     userId: String!
     createdAt: String!
-    newLikes: [Like]
-    newFollowers: [User]
-    newComments: [Comment]
+    newComment: Comment
+    commentId: String
+    newLike: Like
+    likeId: String
   }
   type File {
     filename: String!

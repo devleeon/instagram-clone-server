@@ -22,6 +22,12 @@ export default {
             user: { connect: { id: userId } },
           },
         });
+        await prisma.notification.create({
+          data: {
+            userId,
+            likeId: result.id,
+          },
+        });
         pubsub.publish(NEW_LIKE, {
           notification: { liked: result },
           liked: result,

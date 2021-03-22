@@ -15,7 +15,8 @@ export default {
         }
         return withFilter(
           (_, __, { pubsub }) => pubsub.asyncIterator([NEW_MESSAGE]),
-          ({ newMessage }, { chatId }) => {
+          (payload, { chatId }) => {
+            const { newMessage } = payload;
             return newMessage.chatId === chatId;
           }
         )(root, args, conext, info);
