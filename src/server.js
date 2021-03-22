@@ -9,15 +9,8 @@ import schema from "./schema";
 import "./util/cloudinary";
 import { isAuthenticated } from "./util/isAuthenticated";
 dotenv.config();
-// const redisOptions = {
-//   host: REDIS_DOMAIN_NAME,
-//   port: PORT_NUMBER,
-//   retryStrategy: (times) => {
-//     // reconnect after
-//     return Math.min(times * 50, 2000);
-//   },
-// };
 // const pubsub = new RedisPubSub();
+
 const pubsub = new PubSub();
 const PORT = process.env.PORT || 4000;
 const app = express();
