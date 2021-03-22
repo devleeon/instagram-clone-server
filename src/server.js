@@ -2,7 +2,7 @@ import { ApolloServer, PubSub } from "apollo-server-express";
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
-import { RedisPubSub } from "graphql-redis-subscriptions";
+// import { RedisPubSub } from "graphql-redis-subscriptions";
 import { createServer } from "http";
 import logger from "morgan";
 import schema from "./schema";
@@ -17,8 +17,8 @@ dotenv.config();
 //     return Math.min(times * 50, 2000);
 //   },
 // };
-const pubsub = new RedisPubSub();
-// const pubsub = new PubSub();
+// const pubsub = new RedisPubSub();
+const pubsub = new PubSub();
 const PORT = process.env.PORT || 4000;
 const app = express();
 const server = new ApolloServer({
