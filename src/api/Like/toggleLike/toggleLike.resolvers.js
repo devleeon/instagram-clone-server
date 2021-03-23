@@ -29,15 +29,19 @@ export default {
             user: { connect: { id: userId } },
           },
         });
-        const notif = await prisma.notification.create({
-          data: {
-            userId: post.userId,
-            likeId: result.id,
-          },
-        });
-        pubsub.publish(NEW_LIKE, {
-          newNotification: notif,
-        });
+        if (post.userId !== userId) {
+          // post owner doesn't equal to the logged in user
+          // then send a notification
+          const notif = await prisma.notification.create({
+            data: {
+              userId: post.userId,
+              likeId: result.id,
+            },
+          });
+          pubsub.publish(NEW_LIKE, {
+            newNotification: notif,
+          });
+        }
       }
       return true;
     },

@@ -23,16 +23,19 @@ export default {
             postId,
           },
         });
-
-        const notif = await prisma.notification.create({
-          data: {
-            userId: post.userId,
-            commentId: newComment.id,
-          },
-        });
-        pubsub.publish(NEW_COMMENT, {
-          newNotification: notif,
-        });
+        if (post.userId !== id) {
+          // post owner doesn't equal to the logged in user
+          // then send a notification
+          const notif = await prisma.notification.create({
+            data: {
+              userId: post.userId,
+              commentId: newComment.id,
+            },
+          });
+          pubsub.publish(NEW_COMMENT, {
+            newNotification: notif,
+          });
+        }
         return newComment;
       } catch (error) {
         console.log(error);
