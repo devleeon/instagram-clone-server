@@ -21,7 +21,6 @@ export default {
         orderBy: { createdAt: "desc" },
         select: { createdAt: true, id: true },
       });
-      console.log(allPosts.length);
       if (!cursor) {
         //first request
         posts = await prisma.post.findMany({
