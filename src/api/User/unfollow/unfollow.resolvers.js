@@ -17,10 +17,10 @@ export default {
               following: { disconnect: { username } },
             },
           });
-          await prisma.$executeRaw`DELETE FROM "Notification" WHERE followerId = ${id} AND userId = ${unfollowUser.id};`;
-
+          await prisma.$executeRaw`DELETE FROM "Notification" WHERE "followerId" = ${id} AND "userId" = ${unfollowUser.id};`;
           return true;
-        } catch {
+        } catch (e) {
+          console.log(e);
           return false;
         }
       }
