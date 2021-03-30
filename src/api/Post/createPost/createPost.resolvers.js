@@ -60,6 +60,7 @@ export default {
 
         return post;
       } catch (err) {
+        console.log(err);
         return null;
       }
     },

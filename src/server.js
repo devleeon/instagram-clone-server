@@ -1,9 +1,12 @@
 import { ApolloServer, PubSub } from "apollo-server-express";
+
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 // import { RedisPubSub } from "graphql-redis-subscriptions";
 import { createServer } from "http";
+import { graphqlUploadExpress } from "graphql-upload";
+
 import logger from "morgan";
 import schema from "./schema";
 import "./util/cloudinary";
@@ -39,13 +42,13 @@ const server = new ApolloServer({
   },
 });
 server.applyMiddleware({ app });
-
 const options = {
   port: PORT,
 };
 app.set("trust proxy", true);
 app.use(logger("tiny"));
 app.use(cors({ origin: process.env.CORS_ORIGIN, credentials: true }));
+
 const httpServer = createServer(app);
 server.installSubscriptionHandlers(httpServer);
 
