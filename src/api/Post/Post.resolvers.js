@@ -11,8 +11,7 @@ export default {
         orderBy: { createdAt: "asc" },
       }),
     user: ({ id }) => prisma.post.findUnique({ where: { id } }).user(),
-    likes: ({ id }) =>
-      prisma.post.findUnique({ where: { id } }).likes({ take: 10 }),
+    likes: ({ id }) => prisma.post.findUnique({ where: { id } }).likes(),
     isLiked: async (root, _, { token, isAuthenticated }) => {
       const id = await isAuthenticated(token);
       const { id: postId } = root;
