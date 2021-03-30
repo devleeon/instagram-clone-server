@@ -28,7 +28,8 @@ export default {
             newNotification: notif,
           });
           return true;
-        } catch {
+        } catch (e) {
+          console.log(e);
           return false;
         }
       }
