@@ -6,7 +6,7 @@ export default {
       const allComments = await prisma.comment.findMany({
         where: { postId },
         select: { id: true },
-        orderBy: { createdAt: "desc" },
+        orderBy: { createdAt: "asc" },
       });
       if (cursor) {
         const comments = await prisma.comment.findMany({
@@ -15,7 +15,7 @@ export default {
           where: {
             postId,
           },
-          orderBy: { createdAt: "desc" },
+          orderBy: { createdAt: "asc" },
         });
         return {
           comments: comments.slice(0, limit),
@@ -36,7 +36,7 @@ export default {
           where: {
             postId,
           },
-          orderBy: { createdAt: "desc" },
+          orderBy: { createdAt: "asc" },
         });
 
         return {
