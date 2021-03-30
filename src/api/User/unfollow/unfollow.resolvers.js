@@ -17,6 +17,8 @@ export default {
               following: { disconnect: { username } },
             },
           });
+          await prisma.$executeRaw`DELETE FROM "Notification" WHERE followerId = ${id} AND userId = ${unfollowUser.id};`;
+
           return true;
         } catch {
           return false;
